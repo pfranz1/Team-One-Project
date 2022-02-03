@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_one_application/services/route_generator.dart';
 import 'applicationState.dart';
 import 'authentication/authentication.dart';
 
@@ -21,59 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Team One App'),
+      onGenerateRoute: RouteGenerator.generateRoute,
+      initialRoute: '/',
     );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<ApplicationState>(builder: (context, appState, _) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                child: Authentication(
-                  loginState: appState.loginState,
-                  email: appState.email,
-                  startLoginFlow: appState.startLoginFlow,
-                  verifyEmail: appState.verifyEmail,
-                  signInWithEmailAndPassword:
-                      appState.signInWithEmailAndPassword,
-                  cancelRegistration: appState.cancelRegistration,
-                  registerAccount: appState.registerAccount,
-                  signOut: appState.signOut,
-                  firstText: 'Sign In / Register',
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
   }
 }
