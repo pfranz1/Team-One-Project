@@ -11,7 +11,18 @@ class AuthController extends ChangeNotifier {
 
   AuthState authState;
 
-  AuthController({this.onLogin, this.onLogout}) : authState = AuthState() {}
+  AuthController({this.onLogin, this.onLogout}) : authState = AuthState() {
+    FirebaseAuth.instance.userChanges().listen((user) {
+      if (user != null) {
+        authState.loginState = ApplicationLoginState.loggedIn;
+        print('User ${user.displayName} signed in');
+      } else {
+        authState.loginState = ApplicationLoginState.loggedOut;
+        print('User is signed out');
+      }
+      notifyListeners();
+    });
+  }
 
   void startLoginFlow() {
     authState.loginState = ApplicationLoginState.emailAddress;
@@ -30,7 +41,7 @@ class AuthController extends ChangeNotifier {
       } else {
         authState.loginState = ApplicationLoginState.register;
       }
-      // _email = email;
+      authState.email = email;
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
@@ -73,14 +84,13 @@ class AuthController extends ChangeNotifier {
         'displayName': displayName,
         'email': credential.user!.email,
       };
-
       await usersRef.doc(credential.user!.uid).set(userData);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
   }
 
-  void signOut() {
+  void signOut() async {
     FirebaseAuth.instance.signOut();
   }
 }
