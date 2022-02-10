@@ -8,6 +8,8 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
+  bool doneInit = false;
+
   AuthController? authController;
 
   Future<void> init() async {
@@ -19,6 +21,7 @@ class ApplicationState extends ChangeNotifier {
     authController = AuthController();
 
     // Notify listeners that Application state is done initalizing
+    doneInit = true;
     notifyListeners();
   }
 

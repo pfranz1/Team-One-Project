@@ -12,12 +12,15 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
       builder: (context, appState, _) {
-        // Rebuilds from here if the appState ever notifies listeners
         final Widget _loginComponent;
+        final bool _isDoneInit = appState.doneInit;
+        final bool _isLoggedIn = _isDoneInit &&
+            appState.authController!.authState.loginState ==
+                ApplicationLoginState.loggedIn;
 
-        if (appState.authController != null &&
-            appState.authController!.authState.loginState !=
-                ApplicationLoginState.loggedIn) {
+        // Rebuilds from here if the appState ever notifies listeners
+        if (_isDoneInit) {
+          assert(appState.authController != null);
           _loginComponent =
               // Provide the specific controller as low as possible
               ChangeNotifierProvider<AuthController>(
@@ -42,19 +45,18 @@ class HomeView extends StatelessWidget {
             ),
           );
         } else {
-          _loginComponent = Container(
-            child: Text('Already logged in'),
-          );
+          _loginComponent = Center(child: Text('AppState is initalizing'));
         }
 
         return Scaffold(
           appBar: AppBar(
             title: Text("Home"),
             automaticallyImplyLeading: false,
+            actions: [if (_isLoggedIn) _loginComponent],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [_loginComponent],
+            children: [if (!_isLoggedIn) _loginComponent],
           ),
         );
       },
