@@ -18,7 +18,8 @@ class ApplicationState extends ChangeNotifier {
     );
 
     // Instatiating controller after db / auth is set up
-    authController = AuthController();
+    authController = AuthController(
+        onLogin: () => notifyListeners(), onLogout: () => notifyListeners());
 
     // Notify listeners that Application state is done initalizing
     doneInit = true;
@@ -27,7 +28,7 @@ class ApplicationState extends ChangeNotifier {
 
   @override
   void dispose() {
-    authController?.dispose();
+    // authController?.dispose();
     super.dispose();
   }
 }

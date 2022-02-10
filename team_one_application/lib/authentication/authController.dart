@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,20 +14,32 @@ class AuthController extends ChangeNotifier {
 
   AuthState authState;
 
-  late final StreamSubscription<User?> _userChangesStreamSubscription;
-
   AuthController({this.onLogin, this.onLogout}) : authState = AuthState() {
-    _userChangesStreamSubscription =
-        FirebaseAuth.instance.userChanges().listen((user) {
-      if (user != null) {
-        authState.loginState = ApplicationLoginState.loggedIn;
-        print('User ${user.displayName} signed in');
-      } else {
-        authState.loginState = ApplicationLoginState.loggedOut;
-        print('User is signed out');
-      }
-      notifyListeners();
-    });
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      authState.loginState = ApplicationLoginState.loggedIn;
+      print('User ${user.displayName} is signed in');
+      if (onLogin != null) onLogin!();
+    } else {
+      authState.loginState = ApplicationLoginState.loggedOut;
+      authState.email = null;
+      print('User is signed out');
+    }
+    notifyListeners();
+  }
+
+  void _doOnLogin(User? user) {
+    authState.loginState = ApplicationLoginState.loggedIn;
+    print('User ${user?.displayName ?? "NULL"} signed in');
+    if (onLogin != null) onLogin!();
+    notifyListeners();
+  }
+
+  void _doOnLogout() {
+    authState.loginState = ApplicationLoginState.loggedOut;
+    if (onLogout != null) onLogout!();
+    print('User has signed out');
   }
 
   void startLoginFlow() {
@@ -59,13 +72,19 @@ class AuthController extends ChangeNotifier {
     void Function(FirebaseAuthException e) errorCallback,
   ) async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          )
+          .then((value) => _doOnLogin(value.user));
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
+  }
+
+  void signOut() async {
+    FirebaseAuth.instance.signOut().then((value) => {_doOnLogout()});
   }
 
   void cancelRegistration() {
@@ -95,13 +114,8 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  void signOut() async {
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
   void dispose() {
-    _userChangesStreamSubscription.cancel();
     super.dispose();
   }
 }

@@ -23,9 +23,9 @@ class HomeView extends StatelessWidget {
           assert(appState.authController != null);
           _loginComponent =
               // Provide the specific controller as low as possible
-              ChangeNotifierProvider<AuthController>(
+              ChangeNotifierProvider<AuthController>.value(
+            value: appState.authController!,
             // The controller handles being the listener notifier
-            create: (context) => appState.authController!,
             child: Consumer<AuthController>(
               builder: (context, authController, _) {
                 // Rebuilds from here if authController notifies listeners
@@ -52,7 +52,13 @@ class HomeView extends StatelessWidget {
           appBar: AppBar(
             title: Text("Home"),
             automaticallyImplyLeading: false,
-            actions: [if (_isLoggedIn) _loginComponent],
+            actions: [
+              if (_isLoggedIn)
+                ElevatedButton(
+                  onPressed: () => appState.authController!.signOut(),
+                  child: Text('Sign out'),
+                )
+            ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
