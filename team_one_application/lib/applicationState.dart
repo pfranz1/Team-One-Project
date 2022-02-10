@@ -21,4 +21,10 @@ class ApplicationState extends ChangeNotifier {
     // Notify listeners that Application state is done initalizing
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    authController?.dispose();
+    super.dispose();
+  }
 }

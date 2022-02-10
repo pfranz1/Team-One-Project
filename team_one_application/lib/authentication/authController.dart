@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,8 +13,11 @@ class AuthController extends ChangeNotifier {
 
   AuthState authState;
 
+  late final StreamSubscription<User?> _userChangesStreamSubscription;
+
   AuthController({this.onLogin, this.onLogout}) : authState = AuthState() {
-    FirebaseAuth.instance.userChanges().listen((user) {
+    _userChangesStreamSubscription =
+        FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         authState.loginState = ApplicationLoginState.loggedIn;
         print('User ${user.displayName} signed in');
@@ -92,5 +97,11 @@ class AuthController extends ChangeNotifier {
 
   void signOut() async {
     FirebaseAuth.instance.signOut();
+  }
+
+  @override
+  void dispose() {
+    _userChangesStreamSubscription.cancel();
+    super.dispose();
   }
 }

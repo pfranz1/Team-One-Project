@@ -12,7 +12,41 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
       builder: (context, appState, _) {
-        // Rebuilds from here if the appState ever notifiesListeners
+        // Rebuilds from here if the appState ever notifies listeners
+        final Widget _loginComponent;
+
+        if (appState.authController != null &&
+            appState.authController!.authState.loginState !=
+                ApplicationLoginState.loggedIn) {
+          _loginComponent =
+              // Provide the specific controller as low as possible
+              ChangeNotifierProvider<AuthController>(
+            // The controller handles being the listener notifier
+            create: (context) => appState.authController!,
+            child: Consumer<AuthController>(
+              builder: (context, authController, _) {
+                // Rebuilds from here if authController notifies listeners
+                return Authentication(
+                  loginState: authController.authState.loginState,
+                  email: authController.authState.email,
+                  startLoginFlow: authController.startLoginFlow,
+                  verifyEmail: authController.verifyEmail,
+                  signInWithEmailAndPassword:
+                      authController.signInWithEmailAndPassword,
+                  cancelRegistration: authController.cancelRegistration,
+                  registerAccount: authController.registerAccount,
+                  signOut: authController.signOut,
+                  firstText: 'Sign In / Register',
+                );
+              },
+            ),
+          );
+        } else {
+          _loginComponent = Container(
+            child: Text('Already logged in'),
+          );
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: Text("Home"),
@@ -20,32 +54,7 @@ class HomeView extends StatelessWidget {
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (appState.authController != null &&
-                  appState.authController!.authState.loginState !=
-                      ApplicationLoginState.loggedIn)
-                // Provide the specific controller as low as possible
-                ChangeNotifierProvider<AuthController>(
-                  // The controller handles being the listen notifier
-                  create: (context) => appState.authController!,
-                  child: Consumer<AuthController>(
-                    builder: (context, authController, _) {
-                      return Authentication(
-                        loginState: authController.authState.loginState,
-                        email: authController.authState.email,
-                        startLoginFlow: authController.startLoginFlow,
-                        verifyEmail: authController.verifyEmail,
-                        signInWithEmailAndPassword:
-                            authController.signInWithEmailAndPassword,
-                        cancelRegistration: authController.cancelRegistration,
-                        registerAccount: authController.registerAccount,
-                        signOut: authController.signOut,
-                        firstText: 'Sign In / Register',
-                      );
-                    },
-                  ),
-                ),
-            ],
+            children: [_loginComponent],
           ),
         );
       },
