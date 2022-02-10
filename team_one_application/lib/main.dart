@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/services/route_generator.dart';
 import 'applicationState.dart';
-import 'authentication/authentication.dart';
+import 'authentication/authView.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
