@@ -10,35 +10,32 @@ class RouteGenerator {
     //The route name will be something like 'home/userprefs/'
 
     final String baseDir;
-    RegExp exp = RegExp(r"[^\/]*");
-
-    final test = exp.firstMatch(settings.name ?? '/home').toString();
 
     if (settings.name == null || settings.name == '/') {
-      baseDir = '/home';
+      baseDir = '/';
     } else {
       baseDir = "/" + settings.name!.substring(1).split('/').first;
     }
 
     //Get the first element in the adress, if there is no name defaults to 'home'
     switch (baseDir) {
-      case ('/home'):
+      case ('/'):
         return MaterialPageRoute(
           builder: (context) {
             return HomeView();
           },
-          settings: RouteSettings(name: '/home'),
+          settings: RouteSettings(name: '/'),
         );
       default:
-        return _errorRoute();
+        return _errorRoute("Page ${settings.name} not found");
     }
   }
 
-  static Route<dynamic> _errorRoute() {
+  static Route<dynamic> _errorRoute(String errorMessage) {
     return MaterialPageRoute(builder: (context) {
-      return const Scaffold(
+      return Scaffold(
         body: Center(
-          child: Text('Page Not Found'),
+          child: Text(errorMessage),
         ),
       );
     });
