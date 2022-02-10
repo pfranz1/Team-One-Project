@@ -39,7 +39,7 @@ class HomeView extends StatelessWidget {
                   cancelRegistration: authController.cancelRegistration,
                   registerAccount: authController.registerAccount,
                   signOut: authController.signOut,
-                  firstText: 'Sign In / Register',
+                  firstText: 'Sign In',
                 );
               },
             ),
