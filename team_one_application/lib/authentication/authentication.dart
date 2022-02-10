@@ -2,7 +2,7 @@
 // This code and other code is based on this codelab
 
 import 'package:flutter/material.dart';
-import 'loginStateEnums.dart';
+import 'login_state_enums.dart';
 
 class Authentication extends StatelessWidget {
   const Authentication({

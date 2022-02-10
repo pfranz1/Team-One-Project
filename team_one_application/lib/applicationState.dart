@@ -3,7 +3,7 @@ import 'services/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'authentication/loginStateEnums.dart';
+import 'authentication/login_state_enums.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
