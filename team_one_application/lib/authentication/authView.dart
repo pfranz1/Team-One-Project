@@ -29,7 +29,7 @@ class AuthView extends StatelessWidget {
             cancelRegistration: authController.cancelRegistration,
             registerAccount: authController.registerAccount,
             signOut: authController.signOut,
-            firstText: 'Sign In',
+            firstText: 'Log In',
           );
         },
       ),

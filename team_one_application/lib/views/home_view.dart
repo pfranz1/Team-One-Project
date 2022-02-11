@@ -11,36 +11,31 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ApplicationState>(
+      // Rebuilds from here if the appState ever notifies listeners
       builder: (context, appState, _) {
-        final Widget _loginComponent;
         final bool _isDoneInit = appState.doneInit;
-        final bool _isLoggedIn = _isDoneInit &&
-            appState.authController!.authState.loginState ==
+        final bool _isLoggedIn =
+            appState.authController?.authState.loginState ==
                 ApplicationLoginState.loggedIn;
-
-        // Rebuilds from here if the appState ever notifies listeners
-        if (_isDoneInit) {
-          assert(appState.authController != null);
-          _loginComponent = AuthView(authController: appState.authController!);
-        } else {
-          _loginComponent = Center(child: Text('AppState is initalizing'));
-        }
 
         return Scaffold(
           appBar: AppBar(
-            title: Text("Home"),
-            automaticallyImplyLeading: false,
+            title: const Text("Quick Share"),
             actions: [
-              if (_isLoggedIn)
+              // Sign-Out Button
+              if (_isDoneInit && _isLoggedIn)
                 ElevatedButton(
-                  onPressed: () => appState.authController!.signOut(),
-                  child: Text('Sign out'),
-                )
+                    onPressed: () => appState.authController!.signOut(),
+                    child: const Text('Log Out'))
             ],
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [if (!_isLoggedIn) _loginComponent],
+            children: [
+              // Login Button + Login Flow
+              if (_isDoneInit && !_isLoggedIn)
+                AuthView(authController: appState.authController!)
+            ],
           ),
         );
       },
