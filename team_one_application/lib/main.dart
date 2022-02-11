@@ -6,7 +6,7 @@ import 'authentication/authView.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationState(),
+    create: (context) => ApplicationController(),
     builder: (context, _) => MyApp(),
   ));
 }

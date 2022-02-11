@@ -11,7 +11,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ApplicationState>(
+    return Consumer<ApplicationController>(
       // Rebuilds from here if the appState ever notifies listeners
       builder: (context, appState, _) {
         final bool _isDoneInit = appState.doneInit;
