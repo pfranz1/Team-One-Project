@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/authentication/authController.dart';
+import 'package:team_one_application/filter/filterController.dart';
 import 'services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -11,6 +12,7 @@ class ApplicationState extends ChangeNotifier {
   bool doneInit = false;
 
   AuthController? authController;
+  FilterController? filterController;
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -18,11 +20,19 @@ class ApplicationState extends ChangeNotifier {
     );
 
     // Instatiating controller after db / auth is set up
-    authController = AuthController(
-        onLogin: () => notifyListeners(), onLogout: () => notifyListeners());
+    authController =
+        AuthController(onLogin: () => onLogin(), onLogout: () => onLogout());
 
     // Notify listeners that Application state is done initalizing
     doneInit = true;
+    notifyListeners();
+  }
+
+  void onLogin() {
+    notifyListeners();
+  }
+
+  void onLogout() {
     notifyListeners();
   }
 
