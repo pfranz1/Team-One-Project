@@ -22,14 +22,14 @@ class HomeView extends StatelessWidget {
         if (_isDoneInit) {
           assert(appState.authController != null);
           _loginComponent =
-              // Provide the specific controller as low as possible
+              // Provide the specific controller as close to use as possible
               ChangeNotifierProvider<AuthController>.value(
             value: appState.authController!,
             // The controller handles being the listener notifier
             child: Consumer<AuthController>(
               builder: (context, authController, _) {
                 // Rebuilds from here if authController notifies listeners
-                return Authentication(
+                return AuthVisualElement(
                   loginState: authController.authState.loginState,
                   email: authController.authState.email,
                   startLoginFlow: authController.startLoginFlow,

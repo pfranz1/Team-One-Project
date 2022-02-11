@@ -4,8 +4,8 @@
 import 'package:flutter/material.dart';
 import 'login_state_enums.dart';
 
-class Authentication extends StatelessWidget {
-  const Authentication({
+class AuthVisualElement extends StatelessWidget {
+  const AuthVisualElement({
     required this.loginState,
     required this.email,
     required this.startLoginFlow,
