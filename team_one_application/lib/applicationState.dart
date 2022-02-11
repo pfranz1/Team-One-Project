@@ -28,7 +28,7 @@ class ApplicationState extends ChangeNotifier {
 
   @override
   void dispose() {
-    // authController?.dispose();
+    authController?.dispose();
     super.dispose();
   }
 }
