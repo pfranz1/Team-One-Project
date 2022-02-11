@@ -4,6 +4,7 @@ import 'package:team_one_application/applicationState.dart';
 import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/authentication/authView.dart';
 import 'package:team_one_application/authentication/login_state_enums.dart';
+import 'package:team_one_application/filter/filterView.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -34,7 +35,9 @@ class HomeView extends StatelessWidget {
             children: [
               // Login Button + Login Flow
               if (_isDoneInit && !_isLoggedIn)
-                AuthView(authController: appState.authController!)
+                AuthView(authController: appState.authController!),
+              if (_isDoneInit && _isLoggedIn)
+                FilterView(filterController: appState.filterController!)
             ],
           ),
         );

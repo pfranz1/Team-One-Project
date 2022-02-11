@@ -20,7 +20,7 @@ class AuthController extends ChangeNotifier {
     if (user != null) {
       authState.loginState = ApplicationLoginState.loggedIn;
       print('User ${user.displayName} is signed in');
-      if (onLogin != null) onLogin!();
+      if (onLogin != null) onLogin!(user.uid);
     } else {
       authState.loginState = ApplicationLoginState.loggedOut;
       authState.email = null;
