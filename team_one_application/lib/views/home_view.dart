@@ -21,29 +21,7 @@ class HomeView extends StatelessWidget {
         // Rebuilds from here if the appState ever notifies listeners
         if (_isDoneInit) {
           assert(appState.authController != null);
-          _loginComponent =
-              // Provide the specific controller as close to use as possible
-              ChangeNotifierProvider<AuthController>.value(
-            value: appState.authController!,
-            // The controller handles being the listener notifier
-            child: Consumer<AuthController>(
-              builder: (context, authController, _) {
-                // Rebuilds from here if authController notifies listeners
-                return AuthVisualElement(
-                  loginState: authController.authState.loginState,
-                  email: authController.authState.email,
-                  startLoginFlow: authController.startLoginFlow,
-                  verifyEmail: authController.verifyEmail,
-                  signInWithEmailAndPassword:
-                      authController.signInWithEmailAndPassword,
-                  cancelRegistration: authController.cancelRegistration,
-                  registerAccount: authController.registerAccount,
-                  signOut: authController.signOut,
-                  firstText: 'Sign In',
-                );
-              },
-            ),
-          );
+          _loginComponent = AuthView(authController: appState.authController!);
         } else {
           _loginComponent = Center(child: Text('AppState is initalizing'));
         }
