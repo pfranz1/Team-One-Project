@@ -20,19 +20,21 @@ class ApplicationState extends ChangeNotifier {
     );
 
     // Instatiating controller after db / auth is set up
-    authController =
-        AuthController(onLogin: () => onLogin(), onLogout: () => onLogout());
+    authController = AuthController(
+        onLogin: (String uId) => onLogin(uId), onLogout: () => onLogout());
 
     // Notify listeners that Application state is done initalizing
     doneInit = true;
     notifyListeners();
   }
 
-  void onLogin() {
+  void onLogin(String uId) {
+    filterController = FilterController(uuId: uId);
     notifyListeners();
   }
 
   void onLogout() {
+    filterController = null;
     notifyListeners();
   }
 

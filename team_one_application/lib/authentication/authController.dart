@@ -32,7 +32,7 @@ class AuthController extends ChangeNotifier {
   void _doOnLogin(User? user) {
     authState.loginState = ApplicationLoginState.loggedIn;
     print('User ${user?.displayName ?? "NULL"} signed in');
-    if (onLogin != null) onLogin!();
+    if (onLogin != null) onLogin!(user?.uid);
     notifyListeners();
   }
 
