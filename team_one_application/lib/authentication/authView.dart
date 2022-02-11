@@ -2,7 +2,40 @@
 // This code and other code is based on this codelab
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:team_one_application/authentication/authController.dart';
 import 'login_state_enums.dart';
+
+class AuthView extends StatelessWidget {
+  const AuthView({Key? key, required this.authController}) : super(key: key);
+
+  final AuthController authController;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AuthController>.value(
+      value: authController,
+      // The controller handles being the listener notifier
+      child: Consumer<AuthController>(
+        builder: (context, authController, _) {
+          // Rebuilds from here if authController notifies listeners
+          return AuthVisualElement(
+            loginState: authController.authState.loginState,
+            email: authController.authState.email,
+            startLoginFlow: authController.startLoginFlow,
+            verifyEmail: authController.verifyEmail,
+            signInWithEmailAndPassword:
+                authController.signInWithEmailAndPassword,
+            cancelRegistration: authController.cancelRegistration,
+            registerAccount: authController.registerAccount,
+            signOut: authController.signOut,
+            firstText: 'Sign In',
+          );
+        },
+      ),
+    );
+  }
+}
 
 class AuthVisualElement extends StatelessWidget {
   const AuthVisualElement({
