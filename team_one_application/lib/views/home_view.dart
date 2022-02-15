@@ -19,6 +19,8 @@ class HomeView extends StatelessWidget {
             appState.authController?.authState.loginState ==
                 ApplicationLoginState.loggedIn;
 
+        final bool _hasSelected = appState.selectedUId != null;
+
         return Scaffold(
           appBar: AppBar(
             title: const Text("Quick Share"),
@@ -37,7 +39,9 @@ class HomeView extends StatelessWidget {
               if (_isDoneInit && !_isLoggedIn)
                 AuthView(authController: appState.authController!),
               if (_isDoneInit && _isLoggedIn)
-                FilterView(filterController: appState.filterController!)
+                FilterView(filterController: appState.filterController!),
+              if (_isDoneInit && _hasSelected)
+                Text('Fetching schedule for ${appState.selectedUId}...')
             ],
           ),
         );

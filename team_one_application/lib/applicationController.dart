@@ -13,6 +13,8 @@ class ApplicationController extends ChangeNotifier {
 
   AuthController? authController;
   FilterController? filterController;
+  // When the controller is made this should be moved into it
+  String? selectedUId;
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -30,21 +32,25 @@ class ApplicationController extends ChangeNotifier {
 
   void onLogin(String uId) {
     filterController = FilterController(uuId: uId);
+    selectedUId = null;
     notifyListeners();
   }
 
   void onLogout() {
     filterController = null;
+    selectedUId = null;
     notifyListeners();
   }
 
   void onFilterSelect(String uId) {
-    print('Controller reciving filter select for $uId');
+    selectedUId = uId;
+    notifyListeners();
   }
 
   @override
   void dispose() {
     authController?.dispose();
+    selectedUId = null;
     super.dispose();
   }
 }
