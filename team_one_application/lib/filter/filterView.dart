@@ -39,7 +39,10 @@ class _FilterVisualElementState extends State<FilterVisualElement> {
       child: Column(
         children: [
           if (widget.filterState.isDone)
-            FriendsList(friends: widget.filterState.friendRefs),
+            Consumer<ApplicationController>(
+                builder: (context, appController, _) {
+              return FriendsList(friends: widget.filterState.friendRefs);
+            }),
           if (widget.filterState.isLoading)
             Container(
               child: Text("Loading...."),
