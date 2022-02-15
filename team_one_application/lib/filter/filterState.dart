@@ -5,12 +5,12 @@ class FilterState {
   List<FriendRef>? friendRefs;
   FriendListLoadState friendListLoadState = FriendListLoadState.loading;
 
-  set didLoadFriendRefs(List<FriendRef>? loadedFiendRefs) {
+  void setFriendRefs(List<FriendRef>? loadedFiendRefs) {
     friendRefs = loadedFiendRefs;
     friendListLoadState = FriendListLoadState.done;
   }
 
-  set failedLoadFriendRefs(_) {
+  void failedFriendRefs(_) {
     friendRefs = null;
     friendListLoadState = FriendListLoadState.error;
   }
