@@ -90,6 +90,7 @@ class _FriendsListState extends State<FriendsList> {
               FriendElement(
                 friendRef: friend.value,
                 callback: () => selectIndex(friend.key),
+                isSelected: currentIndex == friend.key,
               ),
         ],
       ),
@@ -99,17 +100,24 @@ class _FriendsListState extends State<FriendsList> {
 
 class FriendElement extends StatelessWidget {
   const FriendElement(
-      {Key? key, required this.friendRef, required this.callback})
+      {Key? key,
+      required this.friendRef,
+      required this.callback,
+      required this.isSelected})
       : super(key: key);
 
   final FriendRef friendRef;
   final VoidCallback callback;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ElevatedButton(
         onPressed: callback,
+        style: ElevatedButton.styleFrom(
+          primary: isSelected ? Colors.lightGreen : Colors.blue,
+        ),
         child: Text(friendRef.displayName ?? "No Name"),
       ),
     );
