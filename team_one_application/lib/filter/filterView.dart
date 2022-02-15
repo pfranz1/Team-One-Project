@@ -73,7 +73,6 @@ class _FriendsListState extends State<FriendsList> {
     //Probably call the DB?
     setState(() {
       currentIndex = newIndex;
-      print(currentIndex);
     });
   }
 
