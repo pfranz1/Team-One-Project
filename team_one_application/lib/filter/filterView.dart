@@ -37,6 +37,18 @@ class _FilterVisualElementState extends State<FilterVisualElement> {
       child: Column(
         children: [
           Text('FilterVisualElement ${widget.filterState.loadState}'),
+          if (widget.filterState.isDone)
+            Container(
+              child: Text("${widget.filterState.friendRefs.toString()}"),
+            ),
+          if (widget.filterState.isLoading)
+            Container(
+              child: Text("Loading...."),
+            ),
+          if (widget.filterState.isError)
+            Container(
+              child: Text("Error!"),
+            ),
         ],
       ),
     );

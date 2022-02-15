@@ -15,12 +15,16 @@ class FilterState {
     _friendListLoadState = FriendListLoadState.error;
   }
 
-  bool get isLoaded {
-    return _friendListLoadState == FriendListLoadState.loading;
+  bool get isDone {
+    return _friendListLoadState == FriendListLoadState.done;
   }
 
   bool get isError {
     return _friendListLoadState == FriendListLoadState.error;
+  }
+
+  bool get isLoading {
+    return _friendListLoadState == FriendListLoadState.loading;
   }
 
   List<FriendRef>? get friendRefs => _friendRefs;
