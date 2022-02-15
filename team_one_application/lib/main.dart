@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/services/route_generator.dart';
-import 'applicationState.dart';
+import 'applicationController.dart';
 import 'authentication/authView.dart';
 
 void main() {

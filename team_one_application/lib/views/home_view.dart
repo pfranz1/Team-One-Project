@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:team_one_application/applicationState.dart';
+import 'package:team_one_application/applicationController.dart';
 import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/authentication/authView.dart';
 import 'package:team_one_application/authentication/login_state_enums.dart';
