@@ -26,7 +26,10 @@ class FilterController extends ChangeNotifier {
 
   Future<List<FriendRef>?> fetchFriendRefs() async {
     final dummyData = <FriendRef>[
-      FriendRef(displayName: "FIRST LAST", uId: "TEST-UID")
+      FriendRef(displayName: "Mason Brick Jr.", uId: "TEST-UID"),
+      FriendRef(displayName: "Joe Baseball", uId: "TEST-UID"),
+      FriendRef(displayName: "Haymond Money", uId: "TEST-UID"),
+      FriendRef(displayName: "Georgie Longs", uId: "TEST-UID"),
     ];
     //Wait 2 seconds then return dummy data
     await Future.delayed(Duration(seconds: 2));
