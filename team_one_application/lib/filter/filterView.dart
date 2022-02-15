@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_one_application/applicationController.dart';
 import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/filter/filterController.dart';
 import 'package:team_one_application/filter/filterState.dart';
@@ -53,7 +54,7 @@ class _FilterVisualElementState extends State<FilterVisualElement> {
   }
 }
 
-class FriendsList extends StatelessWidget {
+class FriendsList extends StatefulWidget {
   const FriendsList({
     Key? key,
     required this.friends,
@@ -62,13 +63,34 @@ class FriendsList extends StatelessWidget {
   final List<FriendRef>? friends;
 
   @override
+  State<FriendsList> createState() => _FriendsListState();
+}
+
+class _FriendsListState extends State<FriendsList> {
+  int currentIndex = -1;
+
+  void selectIndex(int newIndex) {
+    //Probably call the DB?
+    setState(() {
+      currentIndex = newIndex;
+      print(currentIndex);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(border: Border.all(width: 2.0)),
       child: Column(
         children: [
-          if (friends != null && friends!.isNotEmpty)
-            for (final friend in friends!) FriendElement(friendRef: friend),
+          if (widget.friends != null && widget.friends!.isNotEmpty)
+            for (final friend in widget.friends!
+                .asMap()
+                .entries) //As map is the easiest way to get index with a value
+              FriendElement(
+                friendRef: friend.value,
+                callback: () => selectIndex(friend.key),
+              ),
         ],
       ),
     );
@@ -76,15 +98,18 @@ class FriendsList extends StatelessWidget {
 }
 
 class FriendElement extends StatelessWidget {
-  const FriendElement({Key? key, required this.friendRef}) : super(key: key);
+  const FriendElement(
+      {Key? key, required this.friendRef, required this.callback})
+      : super(key: key);
 
   final FriendRef friendRef;
+  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: callback,
         child: Text(friendRef.displayName ?? "No Name"),
       ),
     );
