@@ -26,7 +26,7 @@ class FilterView extends StatelessWidget {
 class FilterVisualElement extends StatelessWidget {
   FilterVisualElement({Key? key, required this.filterState}) : super(key: key);
 
-  FilterState filterState;
+  final FilterState filterState;
 
   @override
   Widget build(BuildContext context) {
