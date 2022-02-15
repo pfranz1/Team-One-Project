@@ -68,8 +68,7 @@ class FriendsList extends StatelessWidget {
       child: Column(
         children: [
           if (friends != null && friends!.isNotEmpty)
-            for (final friend in friends!)
-              FriendElement(name: friend.displayName ?? "No Name"),
+            for (final friend in friends!) FriendElement(friendRef: friend),
         ],
       ),
     );
@@ -77,14 +76,17 @@ class FriendsList extends StatelessWidget {
 }
 
 class FriendElement extends StatelessWidget {
-  const FriendElement({Key? key, required this.name}) : super(key: key);
+  const FriendElement({Key? key, required this.friendRef}) : super(key: key);
 
-  final String name;
+  final FriendRef friendRef;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(name),
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text(friendRef.displayName ?? "No Name"),
+      ),
     );
   }
 }
