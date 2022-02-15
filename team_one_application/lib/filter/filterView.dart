@@ -41,7 +41,10 @@ class _FilterVisualElementState extends State<FilterVisualElement> {
           if (widget.filterState.isDone)
             Consumer<ApplicationController>(
                 builder: (context, appController, _) {
-              return FriendsList(friends: widget.filterState.friendRefs);
+              return FriendsList(
+                friends: widget.filterState.friendRefs,
+                onFriendSelect: appController.onFilterSelect,
+              );
             }),
           if (widget.filterState.isLoading)
             Container(
@@ -61,9 +64,11 @@ class FriendsList extends StatefulWidget {
   const FriendsList({
     Key? key,
     required this.friends,
+    required this.onFriendSelect,
   }) : super(key: key);
 
   final List<FriendRef>? friends;
+  final void Function(String) onFriendSelect;
 
   @override
   State<FriendsList> createState() => _FriendsListState();
@@ -73,10 +78,11 @@ class _FriendsListState extends State<FriendsList> {
   int currentIndex = -1;
 
   void selectIndex(int newIndex) {
-    //Probably call the DB?
     setState(() {
       currentIndex = newIndex;
     });
+    // Calling the callback with the UId of whoever was selected
+    widget.onFriendSelect(widget.friends![newIndex].uId);
   }
 
   @override
