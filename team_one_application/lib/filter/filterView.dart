@@ -34,8 +34,11 @@ class _FilterVisualElementState extends State<FilterVisualElement> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child:
-          Text('FilterVisualElement ${widget.filterState.friendListLoadState}'),
+      child: Column(
+        children: [
+          Text('FilterVisualElement ${widget.filterState.loadState}'),
+        ],
+      ),
     );
   }
 }

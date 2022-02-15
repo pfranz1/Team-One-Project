@@ -12,21 +12,16 @@ class FilterController extends ChangeNotifier {
   }
 
   Future<void> init() async {
-    filterState.friendListLoadState = FriendListLoadState.loading;
-    notifyListeners();
+    // FilterState at this time is loading (not in error) and has a null for its list of friendRefs
 
     //Fetch from db
     fetchFriendRefs().then((friendRefs) {
-      filterState.friendRefs = friendRefs;
-      filterState.friendListLoadState = FriendListLoadState.done;
+      filterState.setFriendRefs(friendRefs);
     }).onError((error, stackTrace) {
-      filterState.friendRefs = null;
-      filterState.friendListLoadState = FriendListLoadState.error;
+      filterState.failedFriendRefs();
     }).whenComplete(() {
       notifyListeners();
     });
-
-    // filterState.friendListLoadState = FriendListLoadState.done;
   }
 
   Future<List<FriendRef>?> fetchFriendRefs() async {
