@@ -23,34 +23,29 @@ class FilterView extends StatelessWidget {
   }
 }
 
-class FilterVisualElement extends StatefulWidget {
+class FilterVisualElement extends StatelessWidget {
   FilterVisualElement({Key? key, required this.filterState}) : super(key: key);
 
   FilterState filterState;
 
   @override
-  _FilterVisualElementState createState() => _FilterVisualElementState();
-}
-
-class _FilterVisualElementState extends State<FilterVisualElement> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          if (widget.filterState.isDone)
+          if (filterState.isDone)
             Consumer<ApplicationController>(
                 builder: (context, appController, _) {
               return FriendsList(
-                friends: widget.filterState.friendRefs,
+                friends: filterState.friendRefs,
                 onFriendSelect: appController.onFilterSelect,
               );
             }),
-          if (widget.filterState.isLoading)
+          if (filterState.isLoading)
             Container(
               child: Text("Loading...."),
             ),
-          if (widget.filterState.isError)
+          if (filterState.isError)
             Container(
               child: Text("Error!"),
             ),
