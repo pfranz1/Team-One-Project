@@ -38,6 +38,10 @@ class ApplicationController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onFilterSelect(String uId) {
+    print('Controller reciving filter select for $uId');
+  }
+
   @override
   void dispose() {
     authController?.dispose();
