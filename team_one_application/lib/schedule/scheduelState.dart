@@ -7,7 +7,9 @@ class ScheduleState {
   // TODO: Replace with schedule object
   List<String>? _schedule;
 
-  ScheduleState() : _agentInfoLoadState = AgentInfoLoadState.loading;
+  ScheduleState(String uId)
+      : _uId = uId,
+        _agentInfoLoadState = AgentInfoLoadState.loading;
 
   void setuId(String newUId) {
     _uId = newUId;
