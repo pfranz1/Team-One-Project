@@ -9,8 +9,16 @@ class ScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = scheduleController.scheduleState;
     return Container(
-      child: Text('ScheduleView ${scheduleController.scheduleState.uId}'),
+      child: Column(
+        children: [
+          Text('ScheduleView ${state.uId}'),
+          if (state.isDone) Text(state.schedule.toString()),
+          if (state.isLoading) Text("Loading..."),
+          if (state.isError) Text("Error!"),
+        ],
+      ),
     );
   }
 }
