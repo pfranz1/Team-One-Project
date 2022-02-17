@@ -19,7 +19,8 @@ class HomeView extends StatelessWidget {
         final bool _isLoggedIn =
             _isDoneInit && appState.authController?.authState.isLoggedIn;
 
-        final bool _hasSelected = appState.scheduleController != null;
+        final bool _hasSelected =
+            _isLoggedIn && appState.scheduleController != null;
 
         return Scaffold(
           appBar: AppBar(
@@ -32,17 +33,19 @@ class HomeView extends StatelessWidget {
                     child: const Text('Log Out'))
             ],
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Login Button + Login Flow
-              if (_isDoneInit && !_isLoggedIn)
-                AuthView(authController: appState.authController!),
-              if (_isDoneInit && _isLoggedIn)
-                FilterView(filterController: appState.filterController!),
-              if (_isDoneInit && _hasSelected)
-                ScheduleView(scheduleController: appState.scheduleController!)
-            ],
+          body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Login Button + Login Flow
+                if (_isDoneInit && !_isLoggedIn)
+                  AuthView(authController: appState.authController!),
+                if (_isDoneInit && _isLoggedIn)
+                  FilterView(filterController: appState.filterController!),
+                if (_isDoneInit && _hasSelected)
+                  ScheduleView(scheduleController: appState.scheduleController!)
+              ],
+            ),
           ),
         );
       },
