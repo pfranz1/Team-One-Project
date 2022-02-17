@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/filter/filterController.dart';
+import 'package:team_one_application/schedule/scheduleController.dart';
 import 'services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -13,6 +14,7 @@ class ApplicationController extends ChangeNotifier {
 
   AuthController? authController;
   FilterController? filterController;
+  ScheduleController? scheduleController;
   // When the controller is made this should be moved into it
   String? selectedUId;
 
@@ -45,6 +47,7 @@ class ApplicationController extends ChangeNotifier {
 
   void onFilterSelect(String uId) {
     selectedUId = uId;
+    scheduleController = ScheduleController(uId: uId);
     notifyListeners();
   }
 

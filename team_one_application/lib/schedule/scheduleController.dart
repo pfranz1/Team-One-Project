@@ -3,6 +3,7 @@ import 'package:team_one_application/schedule/scheduelState.dart';
 
 class ScheduleController extends ChangeNotifier {
   ScheduleState scheduleState;
+  String uId;
 
-  ScheduleController({required this.scheduleState});
+  ScheduleController({required this.uId}) : scheduleState = ScheduleState();
 }
