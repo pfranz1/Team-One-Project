@@ -16,8 +16,7 @@ class HomeView extends StatelessWidget {
       builder: (context, appState, _) {
         final bool _isDoneInit = appState.doneInit;
         final bool _isLoggedIn =
-            appState.authController?.authState.loginState ==
-                ApplicationLoginState.loggedIn;
+            _isDoneInit && appState.authController?.authState.isLoggedIn;
 
         final bool _hasSelected = appState.selectedUId != null;
 

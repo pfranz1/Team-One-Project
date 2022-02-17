@@ -20,7 +20,7 @@ class AuthView extends StatelessWidget {
         builder: (context, authController, _) {
           // Rebuilds from here if authController notifies listeners
           return AuthVisualElement(
-            loginState: authController.authState.loginState,
+            loginState: authController.authState.loginStep,
             email: authController.authState.email,
             startLoginFlow: authController.startLoginFlow,
             verifyEmail: authController.verifyEmail,
@@ -50,7 +50,7 @@ class AuthVisualElement extends StatelessWidget {
     this.firstText = 'Sign in',
   });
 
-  final ApplicationLoginState loginState;
+  final ApplicationLoginStep loginState;
   final String? email;
   final String firstText;
   final void Function() startLoginFlow;
@@ -75,7 +75,7 @@ class AuthVisualElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (loginState) {
-      case ApplicationLoginState.loggedOut:
+      case ApplicationLoginStep.loggedOut:
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -98,7 +98,7 @@ class AuthVisualElement extends StatelessWidget {
             ),
           ],
         );
-      case ApplicationLoginState.emailAddress:
+      case ApplicationLoginStep.emailAddress:
         return ComponentCardWrapper(
           child: EmailForm(
             callback: (email) => verifyEmail(
@@ -108,7 +108,7 @@ class AuthVisualElement extends StatelessWidget {
             },
           ),
         );
-      case ApplicationLoginState.password:
+      case ApplicationLoginStep.password:
         return ComponentCardWrapper(
           child: PasswordForm(
             email: email!,
@@ -118,7 +118,7 @@ class AuthVisualElement extends StatelessWidget {
             },
           ),
         );
-      case ApplicationLoginState.register:
+      case ApplicationLoginStep.register:
         return ComponentCardWrapper(
           child: RegisterForm(
             email: email!,
@@ -139,7 +139,7 @@ class AuthVisualElement extends StatelessWidget {
             },
           ),
         );
-      case ApplicationLoginState.loggedIn:
+      case ApplicationLoginStep.loggedIn:
         return Row(
           children: [
             Padding(

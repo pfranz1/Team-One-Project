@@ -5,29 +5,34 @@ class AuthState {
   // warning telling me not to.
   // DO NOT: Change the values of this state object from anywhere but the controller
 
-  String? email;
-  ApplicationLoginState loginState = ApplicationLoginState.loggedOut;
+  String? _email;
+  ApplicationLoginStep _loginStep = ApplicationLoginStep.loggedOut;
+
+  get email => _email;
+  get loginStep => _loginStep;
+
+  get isLoggedIn => _loginStep == ApplicationLoginStep.loggedIn;
 
   void setLoggedIn() {
-    loginState = ApplicationLoginState.loggedIn;
+    _loginStep = ApplicationLoginStep.loggedIn;
   }
 
   void setLoggedOut() {
-    loginState = ApplicationLoginState.loggedOut;
-    email = null;
+    _loginStep = ApplicationLoginStep.loggedOut;
+    _email = null;
   }
 
   void setEmailStep() {
-    loginState = ApplicationLoginState.emailAddress;
+    _loginStep = ApplicationLoginStep.emailAddress;
   }
 
   void setPasswordStep(String newEmail) {
-    loginState = ApplicationLoginState.password;
-    email = newEmail;
+    _loginStep = ApplicationLoginStep.password;
+    _email = newEmail;
   }
 
   void setRegisterStep(String newEmail) {
-    email = newEmail;
-    loginState = ApplicationLoginState.register;
+    _email = newEmail;
+    _loginStep = ApplicationLoginStep.register;
   }
 }

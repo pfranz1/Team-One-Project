@@ -1,4 +1,4 @@
-enum ApplicationLoginState {
+enum ApplicationLoginStep {
   loggedOut,
   emailAddress,
   register,
