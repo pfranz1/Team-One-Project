@@ -17,16 +17,19 @@ class FilterView extends StatelessWidget {
       value: filterController,
       child:
           Consumer<FilterController>(builder: (context, filterController, _) {
-        return FilterVisualElement(filterState: filterController.filterState);
+        return FilterVisualElement(filterController: filterController);
       }),
     );
   }
 }
 
 class FilterVisualElement extends StatelessWidget {
-  FilterVisualElement({Key? key, required this.filterState}) : super(key: key);
+  FilterVisualElement({Key? key, required this.filterController})
+      : filterState = filterController.filterState,
+        super(key: key);
 
   final FilterState filterState;
+  final FilterController filterController;
 
   @override
   Widget build(BuildContext context) {
