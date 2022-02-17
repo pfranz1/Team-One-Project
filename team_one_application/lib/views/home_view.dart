@@ -5,6 +5,7 @@ import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/authentication/authView.dart';
 import 'package:team_one_application/authentication/login_state_enums.dart';
 import 'package:team_one_application/filter/filterView.dart';
+import 'package:team_one_application/schedule/scheduleView.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class HomeView extends StatelessWidget {
         final bool _isLoggedIn =
             _isDoneInit && appState.authController?.authState.isLoggedIn;
 
-        final bool _hasSelected = appState.selectedUId != null;
+        final bool _hasSelected = appState.scheduleController != null;
 
         return Scaffold(
           appBar: AppBar(
@@ -40,7 +41,7 @@ class HomeView extends StatelessWidget {
               if (_isDoneInit && _isLoggedIn)
                 FilterView(filterController: appState.filterController!),
               if (_isDoneInit && _hasSelected)
-                Text('Fetching schedule for ${appState.selectedUId}...')
+                ScheduleView(scheduleController: appState.scheduleController!)
             ],
           ),
         );

@@ -10,7 +10,7 @@ class ScheduleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('ScheduleView'),
+      child: Text('ScheduleView ${scheduleController.scheduleState.uId}'),
     );
   }
 }
