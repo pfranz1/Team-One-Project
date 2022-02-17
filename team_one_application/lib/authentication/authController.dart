@@ -107,6 +107,7 @@ class AuthController extends ChangeNotifier {
         'email': credential.user!.email,
       };
       await usersRef.doc(credential.user!.uid).set(userData);
+      _doOnLogin(credential.user);
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
