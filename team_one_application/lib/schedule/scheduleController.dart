@@ -7,7 +7,9 @@ class ScheduleController extends ChangeNotifier {
 
   ScheduleController({required String uId})
       : scheduleState = ScheduleState(uId),
-        _uId = uId;
+        _uId = uId {
+    init();
+  }
 
   void init() async {
     fetchSchedule(_uId).then((value) {
@@ -22,8 +24,8 @@ class ScheduleController extends ChangeNotifier {
 
   // I would love if this was move to a db proxy file inside of this component file
   Future<List<String>?> fetchSchedule(String uID) async {
-    final dummyData = ["Event One", "Event Two", "Event Three"];
-    await Future.delayed(Duration(seconds: 5));
+    final dummyData = [uID, "Event One", "Event Two", "Event Three"];
+    await Future.delayed(Duration(seconds: 2));
     return dummyData;
   }
 }

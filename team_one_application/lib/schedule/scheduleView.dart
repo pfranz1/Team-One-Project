@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
 import 'package:team_one_application/schedule/scheduleController.dart';
 
@@ -10,7 +11,16 @@ class ScheduleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScheduleVisualElement(state: scheduleController.scheduleState);
+    return ChangeNotifierProvider.value(
+      value: scheduleController,
+      child: Consumer<ScheduleController>(
+          builder: (context, scheduleController, _) {
+        return ScheduleVisualElement(
+          state: scheduleController.scheduleState,
+        );
+      }),
+    );
+    // return ScheduleVisualElement(state: scheduleController.scheduleState);
   }
 }
 
