@@ -7,4 +7,27 @@ class AuthState {
 
   String? email;
   ApplicationLoginState loginState = ApplicationLoginState.loggedOut;
+
+  void setLoggedIn() {
+    loginState = ApplicationLoginState.loggedIn;
+  }
+
+  void setLoggedOut() {
+    loginState = ApplicationLoginState.loggedOut;
+    email = null;
+  }
+
+  void setEmailStep() {
+    loginState = ApplicationLoginState.emailAddress;
+  }
+
+  void setPasswordStep(String newEmail) {
+    loginState = ApplicationLoginState.password;
+    email = newEmail;
+  }
+
+  void setRegisterStep(String newEmail) {
+    email = newEmail;
+    loginState = ApplicationLoginState.register;
+  }
 }

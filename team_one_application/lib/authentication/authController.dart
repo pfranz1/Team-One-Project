@@ -18,32 +18,31 @@ class AuthController extends ChangeNotifier {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      authState.loginState = ApplicationLoginState.loggedIn;
+      authState.setLoggedIn();
       print('User ${user.displayName} is signed in');
       if (onLogin != null) onLogin!(user.uid);
     } else {
-      authState.loginState = ApplicationLoginState.loggedOut;
-      authState.email = null;
+      authState.setLoggedOut();
       print('User is signed out');
     }
     notifyListeners();
   }
 
   void _doOnLogin(User? user) {
-    authState.loginState = ApplicationLoginState.loggedIn;
+    authState.setLoggedIn();
     print('User ${user?.displayName ?? "NULL"} signed in');
     if (onLogin != null) onLogin!(user?.uid);
     notifyListeners();
   }
 
   void _doOnLogout() {
-    authState.loginState = ApplicationLoginState.loggedOut;
+    authState.setLoggedOut();
     if (onLogout != null) onLogout!();
     print('User has signed out');
   }
 
   void startLoginFlow() {
-    authState.loginState = ApplicationLoginState.emailAddress;
+    authState.setEmailStep();
     notifyListeners();
   }
 
@@ -55,11 +54,10 @@ class AuthController extends ChangeNotifier {
       var methods =
           await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
       if (methods.contains('password')) {
-        authState.loginState = ApplicationLoginState.password;
+        authState.setPasswordStep(email);
       } else {
-        authState.loginState = ApplicationLoginState.register;
+        authState.setRegisterStep(email);
       }
-      authState.email = email;
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
@@ -88,7 +86,7 @@ class AuthController extends ChangeNotifier {
   }
 
   void cancelRegistration() {
-    authState.loginState = ApplicationLoginState.loggedOut;
+    authState.setLoggedOut();
     notifyListeners();
   }
 
