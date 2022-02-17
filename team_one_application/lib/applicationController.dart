@@ -31,7 +31,8 @@ class ApplicationController extends ChangeNotifier {
   }
 
   void onLogin(String uId) {
-    filterController = FilterController(uuId: uId);
+    filterController =
+        FilterController(uuId: uId, onAgentSelect: onFilterSelect);
     selectedUId = null;
     notifyListeners();
   }

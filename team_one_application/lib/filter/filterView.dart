@@ -37,13 +37,10 @@ class FilterVisualElement extends StatelessWidget {
       child: Column(
         children: [
           if (filterState.isDone)
-            Consumer<ApplicationController>(
-                builder: (context, appController, _) {
-              return FriendsList(
-                friends: filterState.friendRefs,
-                onFriendSelect: appController.onFilterSelect,
-              );
-            }),
+            FriendsList(
+              friends: filterState.friendRefs,
+              onFriendSelect: filterController.onAgentSelect,
+            ),
           if (filterState.isLoading)
             Container(
               child: Text("Loading...."),

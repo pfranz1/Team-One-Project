@@ -7,7 +7,10 @@ class FilterController extends ChangeNotifier {
   String uuId;
   FilterState filterState;
 
-  FilterController({required this.uuId}) : filterState = FilterState() {
+  final void Function(String) onAgentSelect;
+
+  FilterController({required this.uuId, required this.onAgentSelect})
+      : filterState = FilterState() {
     init();
   }
 
@@ -22,6 +25,10 @@ class FilterController extends ChangeNotifier {
     }).whenComplete(() {
       notifyListeners();
     });
+  }
+
+  void onFilterSelect(String uId) {
+    onAgentSelect(uId);
   }
 
   Future<List<FriendRef>?> fetchFriendRefs() async {
