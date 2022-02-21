@@ -24,7 +24,7 @@ class Event {
 
 //Lecture Class
 class Lecture extends Event {
-  bool online;
+  bool online; 
   bool inPerson;
   bool hybrid;
   String professor;
