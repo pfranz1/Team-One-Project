@@ -38,11 +38,11 @@ class HomeView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Login Button + Login Flow
-                if (_isDoneInit && !_isLoggedIn)
+                if (!_isLoggedIn)
                   AuthView(authController: appState.authController!),
-                if (_isDoneInit && _isLoggedIn)
+                if (_isLoggedIn)
                   FilterView(filterController: appState.filterController!),
-                if (_isDoneInit && _hasSelected)
+                if (_hasSelected)
                   ScheduleView(scheduleController: appState.scheduleController!)
               ],
             ),
