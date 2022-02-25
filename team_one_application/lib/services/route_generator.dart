@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_one_application/views/home_view.dart';
+import 'package:team_one_application/screens/home_view.dart';
 
 enum pageEnum { home }
 
