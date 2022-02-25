@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:team_one_application/screens/home_view.dart';
+import 'package:team_one_application/screens/home_screen.dart';
 
 enum pageEnum { home }
 
@@ -22,7 +22,7 @@ class RouteGenerator {
       case ('/'):
         return MaterialPageRoute(
           builder: (context) {
-            return HomeView();
+            return HomeScreen();
           },
           settings: RouteSettings(name: '/'),
         );
