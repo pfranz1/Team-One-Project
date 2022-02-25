@@ -41,10 +41,10 @@ class HomeScreen extends StatelessWidget {
                 // Login Button + Login Flow
                 if (!_isLoggedIn && _isDoneInit)
                   AuthView(authController: appState.authController!),
-                if (_isLoggedIn && _isDoneInit)
-                  FilterView(filterController: appState.filterController!),
-                if (_hasSelected)
-                  ScheduleView(scheduleController: appState.scheduleController!)
+                // if (_isLoggedIn && _isDoneInit)
+                //   FilterView(filterController: appState.filterController!),
+                // if (_hasSelected)
+                //   ScheduleView(scheduleController: appState.scheduleController!)
               ],
             ),
           ),
