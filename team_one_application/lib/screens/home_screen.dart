@@ -16,8 +16,9 @@ class HomeScreen extends StatelessWidget {
       // Rebuilds from here if the appState ever notifies listeners
       builder: (context, appState, _) {
         final bool _isDoneInit = appState.doneInit;
+        //If i try to check for login and there is no auth controller, i am not logged in yet
         final bool _isLoggedIn =
-            _isDoneInit && appState.authController?.authState.isLoggedIn;
+            appState.authController?.authState.isLoggedIn ?? false;
 
         final bool _hasSelected =
             _isLoggedIn && appState.scheduleController != null;
@@ -38,9 +39,9 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Login Button + Login Flow
-                if (!_isLoggedIn)
+                if (!_isLoggedIn && _isDoneInit)
                   AuthView(authController: appState.authController!),
-                if (_isLoggedIn)
+                if (_isLoggedIn && _isDoneInit)
                   FilterView(filterController: appState.filterController!),
                 if (_hasSelected)
                   ScheduleView(scheduleController: appState.scheduleController!)
