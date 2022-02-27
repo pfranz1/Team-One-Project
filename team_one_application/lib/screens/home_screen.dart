@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Quick Share"),
+            key: const ValueKey('appBar'),
             actions: [
               // Sign-Out Button
               if (_isDoneInit && _isLoggedIn)

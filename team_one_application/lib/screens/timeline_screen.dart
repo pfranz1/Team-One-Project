@@ -36,14 +36,19 @@ class TimelineScreen extends StatelessWidget {
                 //menu item of Drawer
                 leading: Icon(Icons.calendar_today),
                 title: Text('Timeline'),
+                onTap: () =>
+                    appController.navigationService.replaceCurrent('/timeline'),
               ),
               ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text('Social'),
+                onTap: () =>
+                    appController.navigationService.replaceCurrent('/social'),
               ),
               ListTile(
                 leading: Icon(Icons.settings),
                 title: Text('Account Settings'),
+                onTap: () {},
               ),
             ],
           ),
