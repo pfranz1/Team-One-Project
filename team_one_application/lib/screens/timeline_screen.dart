@@ -10,6 +10,16 @@ class TimelineScreen extends StatelessWidget {
     return Consumer<ApplicationController>(
         builder: (context, appController, _) {
       return Scaffold(
+        drawer: Drawer(),
+        appBar: AppBar(
+          title: const Text("Quick Share"),
+          actions: [
+            // Sign-Out Button
+            ElevatedButton(
+                onPressed: () => appController.authController!.signOut(),
+                child: const Text('Log Out'))
+          ],
+        ),
         body: Center(
           child: Column(
             children: [
