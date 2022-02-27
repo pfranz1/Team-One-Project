@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/authentication/authController.dart';
 import 'package:team_one_application/filter/filterController.dart';
 import 'package:team_one_application/schedule/scheduleController.dart';
+import 'package:team_one_application/services/navigation_service.dart';
 import 'services/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ApplicationController extends ChangeNotifier {
-  ApplicationController() {
+  ApplicationController({required this.navigationService}) {
     init();
   }
 
@@ -15,7 +16,8 @@ class ApplicationController extends ChangeNotifier {
   AuthController? authController;
   FilterController? filterController;
   ScheduleController? scheduleController;
-  // When the controller is made this should be moved into it
+
+  NavigationService navigationService;
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -24,7 +26,9 @@ class ApplicationController extends ChangeNotifier {
 
     // Instatiating controller after db / auth is set up
     authController = AuthController(
-        onLogin: (String uId) => onLogin(uId), onLogout: () => onLogout());
+        onLogin: (String uId) => onLogin(uId),
+        onLogout: () => onLogout(),
+        navigationService: navigationService);
 
     // Notify listeners that Application state is done initalizing
     doneInit = true;

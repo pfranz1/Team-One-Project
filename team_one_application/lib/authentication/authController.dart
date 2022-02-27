@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:team_one_application/authentication/authState.dart';
+import 'package:team_one_application/services/navigation_service.dart';
 import 'login_state_enums.dart';
 
 class AuthController extends ChangeNotifier {
@@ -14,31 +15,54 @@ class AuthController extends ChangeNotifier {
 
   AuthState authState;
 
-  AuthController({this.onLogin, this.onLogout}) : authState = AuthState() {
+  NavigationService navigationService;
+
+  AuthController({
+    this.onLogin,
+    this.onLogout,
+    required this.navigationService,
+  }) : authState = AuthState() {
+    //Check if someone is already signed in
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      authState.setLoggedIn();
-      print('User ${user.displayName} is signed in');
-      if (onLogin != null) onLogin!(user.uid);
+      // We call the function here because we need to take user from state logged out to logged in
+      _doOnLogin(user);
     } else {
+      // We dont call the _doOnLogout function here because we have no work to do because user starts logged out
       authState.setLoggedOut();
-      print('User is signed out');
+      notifyListeners();
+
+      print('Currently signed out');
     }
-    notifyListeners();
   }
 
   void _doOnLogin(User? user) {
+    // Update Model
     authState.setLoggedIn();
-    print('User ${user?.displayName ?? "NULL"} signed in');
+
+    // Call lambda functions
     if (onLogin != null) onLogin!(user?.uid);
+    // Change screen
+    navigationService.navigateTo("/timeline");
+
+    // ignore: avoid_print
+    print('User ${user?.displayName} signed in');
     notifyListeners();
   }
 
   void _doOnLogout() {
+    // Update Model
     authState.setLoggedOut();
+
+    // Call lambda
     if (onLogout != null) onLogout!();
-    print('User has signed out');
+
+    // Change Screen
+    navigationService.goBack();
+
+    // ignore: avoid_print
+    print('User has succsefully signed out');
   }
 
   void startLoginFlow() {
@@ -111,10 +135,5 @@ class AuthController extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       errorCallback(e);
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_one_application/services/navigation_service.dart';
 import 'package:team_one_application/services/route_generator.dart';
 import 'applicationController.dart';
 import 'authentication/authView.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (context) => ApplicationController(),
-    builder: (context, _) => MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<NavigationService>(
+          create: (_) => NavigationService(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ApplicationController(
+            navigationService: context.read<NavigationService>(),
+          ),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +36,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: '/',
+      navigatorKey: context.read<NavigationService>().navigatorKey,
     );
   }
 }

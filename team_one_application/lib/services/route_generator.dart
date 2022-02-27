@@ -18,13 +18,24 @@ class RouteGenerator {
     }
 
     //Get the first element in the adress, if there is no name defaults to 'home'
-    switch (baseDir) {
+    switch (settings.name) {
       case ('/'):
         return MaterialPageRoute(
           builder: (context) {
             return HomeScreen();
           },
           settings: RouteSettings(name: '/'),
+        );
+      case ('/timeline'):
+        return MaterialPageRoute(
+          builder: (context) {
+            return Scaffold(
+              body: Center(
+                child: Text('Time Line!'),
+              ),
+            );
+          },
+          settings: RouteSettings(name: '/timeline'),
         );
       default:
         return _errorRoute("Page ${settings.name} not found");
