@@ -15,9 +15,42 @@ class TimelineScreen extends StatelessWidget {
       final bool _hasSelected = appController.scheduleController != null;
 
       return Scaffold(
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                //header of drawer
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Text(
+                  'Hello, <USERNAME>',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 24,
+                  ),
+                ),
+              ),
+              ListTile(
+                //menu item of Drawer
+                leading: Icon(Icons.calendar_today),
+                title: Text('Timeline'),
+              ),
+              ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Social'),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Account Settings'),
+              ),
+            ],
+          ),
+        ),
         appBar: AppBar(
           title: const Text("Quick Share"),
+          key: const ValueKey('appBar'),
           actions: [
             // Sign-Out Button
             ElevatedButton(
