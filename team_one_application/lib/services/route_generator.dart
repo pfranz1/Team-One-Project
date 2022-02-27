@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_one_application/screens/home_screen.dart';
+import 'package:team_one_application/screens/timeline_screen.dart';
 
 enum pageEnum { home }
 
@@ -29,11 +30,7 @@ class RouteGenerator {
       case ('/timeline'):
         return MaterialPageRoute(
           builder: (context) {
-            return Scaffold(
-              body: Center(
-                child: Text('Time Line!'),
-              ),
-            );
+            return TimelineScreen();
           },
           settings: RouteSettings(name: '/timeline'),
         );
