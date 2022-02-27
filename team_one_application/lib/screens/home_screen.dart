@@ -16,12 +16,9 @@ class HomeScreen extends StatelessWidget {
       // Rebuilds from here if the appState ever notifies listeners
       builder: (context, appController, _) {
         final bool _isDoneInit = appController.doneInit;
-        //If i try to check for login and there is no auth controller, i am not logged in yet
+        // If I check login and there is no auth controller, i am not logged in
         final bool _isLoggedIn =
             appController.authController?.authState.isLoggedIn ?? false;
-
-        final bool _hasSelected =
-            _isLoggedIn && appController.scheduleController != null;
 
         return Scaffold(
           appBar: AppBar(
@@ -41,10 +38,13 @@ class HomeScreen extends StatelessWidget {
                 // Login Button + Login Flow
                 if (!_isLoggedIn && _isDoneInit)
                   AuthView(authController: appController.authController!),
-                // if (_isLoggedIn && _isDoneInit)
-                //   FilterView(filterController: appState.filterController!),
-                // if (_hasSelected)
-                //   ScheduleView(scheduleController: appState.scheduleController!)
+
+                // Message if reached accidentaly
+                if (_isLoggedIn && _isDoneInit)
+                  const Text("Youve reached the home screen while logged in "),
+
+                // Loading if appController is going slow
+                if (!_isDoneInit) const CircularProgressIndicator(),
               ],
             ),
           ),
