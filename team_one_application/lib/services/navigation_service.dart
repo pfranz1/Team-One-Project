@@ -7,6 +7,11 @@ class NavigationService {
     return navigatorKey.currentState!.pushNamed(routeName);
   }
 
+  void popUntilNameMatches(String routeName) {
+    navigatorKey.currentState!
+        .popUntil((route) => route.settings.name == routeName);
+  }
+
   void goBack() {
     return navigatorKey.currentState!.pop();
   }

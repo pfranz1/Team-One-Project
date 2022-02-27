@@ -59,7 +59,7 @@ class AuthController extends ChangeNotifier {
     if (onLogout != null) onLogout!();
 
     // Change Screen
-    navigationService.goBack();
+    navigationService.popUntilNameMatches("/");
 
     // ignore: avoid_print
     print('User has succsefully signed out');
