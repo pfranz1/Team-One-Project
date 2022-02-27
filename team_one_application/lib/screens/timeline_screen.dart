@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/applicationController.dart';
+import 'package:team_one_application/filter/filterView.dart';
+import 'package:team_one_application/schedule/scheduleView.dart';
 
 class TimelineScreen extends StatelessWidget {
   const TimelineScreen({Key? key}) : super(key: key);
@@ -9,6 +11,9 @@ class TimelineScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ApplicationController>(
         builder: (context, appController, _) {
+      final bool _hasFilter = appController.filterController != null;
+      final bool _hasSelected = appController.scheduleController != null;
+
       return Scaffold(
         drawer: Drawer(),
         appBar: AppBar(
@@ -23,7 +28,11 @@ class TimelineScreen extends StatelessWidget {
         body: Center(
           child: Column(
             children: [
-              Text("Welcome to the timeline screen!"),
+              if (_hasFilter)
+                FilterView(filterController: appController.filterController!),
+              if (_hasSelected)
+                ScheduleView(
+                    scheduleController: appController.scheduleController!),
             ],
           ),
         ),
