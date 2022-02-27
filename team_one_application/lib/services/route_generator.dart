@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team_one_application/screens/home_screen.dart';
+import 'package:team_one_application/screens/social_screen.dart';
 import 'package:team_one_application/screens/timeline_screen.dart';
 
 enum pageEnum { home }
@@ -34,6 +35,14 @@ class RouteGenerator {
           },
           settings: RouteSettings(name: '/timeline'),
         );
+      case ('/social'):
+        return MaterialPageRoute(
+          builder: (context) {
+            return SocialScreen();
+          },
+          settings: RouteSettings(name: "/social"),
+        );
+
       default:
         return _errorRoute("Page ${settings.name} not found");
     }
