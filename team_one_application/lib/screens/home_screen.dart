@@ -14,14 +14,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ApplicationController>(
       // Rebuilds from here if the appState ever notifies listeners
-      builder: (context, appState, _) {
-        final bool _isDoneInit = appState.doneInit;
+      builder: (context, appController, _) {
+        final bool _isDoneInit = appController.doneInit;
         //If i try to check for login and there is no auth controller, i am not logged in yet
         final bool _isLoggedIn =
-            appState.authController?.authState.isLoggedIn ?? false;
+            appController.authController?.authState.isLoggedIn ?? false;
 
         final bool _hasSelected =
-            _isLoggedIn && appState.scheduleController != null;
+            _isLoggedIn && appController.scheduleController != null;
 
         return Scaffold(
           appBar: AppBar(
@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               // Sign-Out Button
               if (_isDoneInit && _isLoggedIn)
                 ElevatedButton(
-                    onPressed: () => appState.authController!.signOut(),
+                    onPressed: () => appController.authController!.signOut(),
                     child: const Text('Log Out'))
             ],
           ),
@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 // Login Button + Login Flow
                 if (!_isLoggedIn && _isDoneInit)
-                  AuthView(authController: appState.authController!),
+                  AuthView(authController: appController.authController!),
                 // if (_isLoggedIn && _isDoneInit)
                 //   FilterView(filterController: appState.filterController!),
                 // if (_hasSelected)
