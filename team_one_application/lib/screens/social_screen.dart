@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/applicationController.dart';
+import 'package:team_one_application/social/socialView.dart';
 
 class SocialScreen extends StatelessWidget {
   const SocialScreen({Key? key}) : super(key: key);
@@ -62,7 +63,7 @@ class SocialScreen extends StatelessWidget {
             ),
           ),
           body: Center(
-            child: Text("Social Screen!"),
+            child: SocialView(socialController: appController.socialController),
           ),
         );
       },

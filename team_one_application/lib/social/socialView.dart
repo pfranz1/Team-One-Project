@@ -7,14 +7,15 @@ class SocialView extends StatelessWidget {
   const SocialView({Key? key, required this.socialController})
       : super(key: key);
 
-  final SocialController socialController;
+  final SocialController? socialController;
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: socialController,
-      child: Consumer<SocialController>(
+      child: Consumer<SocialController?>(
         builder: (context, socialController, child) {
+          if (socialController == null) return Container();
           return SocialVisualElement(
             socialController: socialController,
           );
@@ -50,7 +51,7 @@ class _SocialVisualElementState extends State<SocialVisualElement> {
     } else if (state.isError) {
       return Text("Error with loading friends, Sorry!");
     } else if (state.isDone) {
-      return SocialLoadedWidget(friends: state.freinds!);
+      return SocialLoadedWidget(friends: state.freinds);
     } else {
       return const Text(
           "Wow rare easter egg! state in social controller is not one of the three expected");
@@ -60,7 +61,7 @@ class _SocialVisualElementState extends State<SocialVisualElement> {
 
 class SocialLoadedWidget extends StatefulWidget {
   const SocialLoadedWidget({Key? key, required this.friends}) : super(key: key);
-  final List<FriendRef> friends;
+  final List<FriendRef>? friends;
 
   @override
   _SocialLoadedWidgetState createState() => _SocialLoadedWidgetState();
@@ -73,10 +74,10 @@ class _SocialLoadedWidgetState extends State<SocialLoadedWidget> {
       child: ListView.builder(
         itemBuilder: (context, index) {
           return FriendListTile(
-            info: widget.friends[index],
+            info: widget.friends![index],
           );
         },
-        itemCount: widget.friends.length,
+        itemCount: widget.friends?.length,
       ),
     );
   }
