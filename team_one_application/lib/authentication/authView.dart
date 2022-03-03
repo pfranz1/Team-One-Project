@@ -294,13 +294,6 @@ class _EmailFormState extends State<EmailForm> {
                           vertical: 16.0, horizontal: 30),
                       child: Row(
                         children: [
-                          TextButton(
-                            onPressed: widget.cancel,
-                            focusNode: FocusNode(
-                                canRequestFocus: false,
-                                descendantsAreFocusable: false),
-                            child: const Text('CANCEL'),
-                          ),
                           const SizedBox(width: 16),
                           StyledButton(
                             onPressed: () async {
