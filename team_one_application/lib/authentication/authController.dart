@@ -70,6 +70,11 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void startRegisterFlow() {
+    authState.setRegisterStep1();
+    notifyListeners();
+  }
+
   Future<void> verifyEmail(
     String email,
     void Function(FirebaseAuthException e) errorCallback,
