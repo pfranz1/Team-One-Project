@@ -6,6 +6,7 @@ import 'package:team_one_application/authentication/authView.dart';
 import 'package:team_one_application/authentication/login_state_enums.dart';
 import 'package:team_one_application/filter/filterView.dart';
 import 'package:team_one_application/schedule/scheduleView.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

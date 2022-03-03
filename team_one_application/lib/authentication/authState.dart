@@ -31,12 +31,12 @@ class AuthState {
     _email = newEmail;
   }
 
-  void setRegisterStep() {
+  void setRegisterStep1() {
     _loginStep = ApplicationLoginStep.register;
   }
 
-  void setRegisterStepFromLogin(String newEmail) {
+  void setRegisterStep(String newEmail) {
     _email = newEmail;
-    _loginStep = ApplicationLoginStep.registerFromLogin;
+    _loginStep = ApplicationLoginStep.register;
   }
 }
