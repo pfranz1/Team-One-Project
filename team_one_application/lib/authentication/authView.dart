@@ -110,7 +110,7 @@ class AuthVisualElement extends StatelessWidget {
                   padding: const EdgeInsets.all(10.0),
                   child: StyledButton(
                     onPressed: () {
-                      startRegisterFlow();
+                      startLoginFlow();
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
