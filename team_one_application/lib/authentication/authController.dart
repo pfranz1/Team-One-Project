@@ -71,7 +71,7 @@ class AuthController extends ChangeNotifier {
   }
 
   void startRegisterFlow() {
-    authState.setRegisterStep1();
+    authState.setRegisterStep();
     notifyListeners();
   }
 
@@ -85,7 +85,7 @@ class AuthController extends ChangeNotifier {
       if (methods.contains('password')) {
         authState.setPasswordStep(email);
       } else {
-        authState.setRegisterStep(email);
+        authState.setRegisterStepFromLogin(email);
       }
       notifyListeners();
     } on FirebaseAuthException catch (e) {

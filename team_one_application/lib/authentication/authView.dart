@@ -147,10 +147,30 @@ class AuthVisualElement extends StatelessWidget {
             },
           ),
         );
+      case ApplicationLoginStep.registerFromLogin:
+        return ComponentCardWrapper(
+          child: RegisterFormFromLogin(
+            email: email!,
+            cancel: () {
+              cancelRegistration();
+            },
+            registerAccount: (
+              email,
+              displayName,
+              password,
+            ) {
+              registerAccount(
+                  email,
+                  displayName,
+                  password,
+                  (e) =>
+                      _showErrorDialog(context, 'Failed to create account', e));
+            },
+          ),
+        );
       case ApplicationLoginStep.register:
         return ComponentCardWrapper(
           child: RegisterForm(
-            email: email!,
             cancel: () {
               cancelRegistration();
             },
@@ -333,8 +353,8 @@ class _EmailFormState extends State<EmailForm> {
   }
 }
 
-class RegisterForm extends StatefulWidget {
-  const RegisterForm({
+class RegisterFormFromLogin extends StatefulWidget {
+  const RegisterFormFromLogin({
     required this.registerAccount,
     required this.cancel,
     required this.email,
@@ -344,10 +364,170 @@ class RegisterForm extends StatefulWidget {
       registerAccount;
   final void Function() cancel;
   @override
-  _RegisterFormState createState() => _RegisterFormState();
+  _RegisterFormFromLoginState createState() => _RegisterFormFromLoginState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _RegisterFormFromLoginState extends State<RegisterFormFromLogin> {
+  final _formKey = GlobalKey<FormState>(debugLabel: '_RegisterFormState');
+  final _emailController = TextEditingController();
+  final _displayNameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.text = widget.email;
+  }
+
+  void _confirmCancel() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              "Cancel?",
+              textAlign: TextAlign.center,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4!
+                  .copyWith(color: Theme.of(context).colorScheme.onSurface),
+            ),
+            content: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StyledButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+                const SizedBox(
+                  width: 10,
+                ),
+                StyledButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      widget.cancel();
+                    }),
+              ],
+            ),
+          );
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Header('Create account'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'Email Adress',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your email address to continue';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _displayNameController,
+                    autofocus: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Display Name',
+                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your account name';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextFormField(
+                    controller: _passwordController,
+                    decoration: const InputDecoration(
+                      hintText: 'Password',
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Enter your password';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: _confirmCancel,
+                        focusNode: FocusNode(
+                            canRequestFocus: false,
+                            descendantsAreFocusable: false),
+                        child: const Text('CANCEL'),
+                      ),
+                      const SizedBox(width: 16),
+                      StyledButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            widget.registerAccount(
+                              _emailController.text,
+                              _displayNameController.text,
+                              _passwordController.text,
+                            );
+                          }
+                        },
+                        child: const Text('SAVE'),
+                      ),
+                      const SizedBox(width: 30),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class RegisterForm extends StatefulWidget {
+  const RegisterFormFromLogin({
+    required this.registerAccount,
+    required this.cancel,
+    required this.email,
+  });
+  final String email;
+  final void Function(String email, String displayName, String password)
+      registerAccount;
+  final void Function() cancel;
+  @override
+  _RegisterFormFromLoginState createState() => _RegisterFormFromLoginState();
+}
+
+class _RegisterForm extends State<RegisterFormFromLogin> {
   final _formKey = GlobalKey<FormState>(debugLabel: '_RegisterFormState');
   final _emailController = TextEditingController();
   final _displayNameController = TextEditingController();
