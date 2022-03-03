@@ -23,6 +23,7 @@ class AuthView extends StatelessWidget {
             loginState: authController.authState.loginStep,
             email: authController.authState.email,
             startLoginFlow: authController.startLoginFlow,
+            startRegisterFlow: authController.startRegisterFlow,
             verifyEmail: authController.verifyEmail,
             signInWithEmailAndPassword:
                 authController.signInWithEmailAndPassword,
@@ -42,6 +43,7 @@ class AuthVisualElement extends StatelessWidget {
     required this.loginState,
     required this.email,
     required this.startLoginFlow,
+    required this.startRegisterFlow,
     required this.verifyEmail,
     required this.signInWithEmailAndPassword,
     required this.cancelRegistration,
@@ -54,6 +56,7 @@ class AuthVisualElement extends StatelessWidget {
   final String? email;
   final String firstText;
   final void Function() startLoginFlow;
+  final void Function() startRegisterFlow;
   final void Function(
     String email,
     void Function(Exception e) error,
@@ -76,25 +79,51 @@ class AuthVisualElement extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (loginState) {
       case ApplicationLoginStep.loggedOut:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: StyledButton(
-                onPressed: () {
-                  startLoginFlow();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    firstText,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+            Image.asset(
+              'images/quickshare.png',
+              width: 500.0,
+              height: 500.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StyledButton(
+                    onPressed: () {
+                      startLoginFlow();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        firstText,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StyledButton(
+                    onPressed: () {
+                      startRegisterFlow();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        "Register",
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );
