@@ -31,10 +31,6 @@ class AuthState {
     _email = newEmail;
   }
 
-  void setRegisterStep1() {
-    _loginStep = ApplicationLoginStep.register;
-  }
-
   void setRegisterStep(String newEmail) {
     _email = newEmail;
     _loginStep = ApplicationLoginStep.register;

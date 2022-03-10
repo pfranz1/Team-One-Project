@@ -23,7 +23,6 @@ class AuthView extends StatelessWidget {
             loginState: authController.authState.loginStep,
             email: authController.authState.email,
             startLoginFlow: authController.startLoginFlow,
-            startRegisterFlow: authController.startRegisterFlow,
             verifyEmail: authController.verifyEmail,
             signInWithEmailAndPassword:
                 authController.signInWithEmailAndPassword,
@@ -43,7 +42,6 @@ class AuthVisualElement extends StatelessWidget {
     required this.loginState,
     required this.email,
     required this.startLoginFlow,
-    required this.startRegisterFlow,
     required this.verifyEmail,
     required this.signInWithEmailAndPassword,
     required this.cancelRegistration,
@@ -56,7 +54,6 @@ class AuthVisualElement extends StatelessWidget {
   final String? email;
   final String firstText;
   final void Function() startLoginFlow;
-  final void Function() startRegisterFlow;
   final void Function(
     String email,
     void Function(Exception e) error,
@@ -294,6 +291,13 @@ class _EmailFormState extends State<EmailForm> {
                           vertical: 16.0, horizontal: 30),
                       child: Row(
                         children: [
+                          TextButton(
+                            onPressed: widget.cancel,
+                            focusNode: FocusNode(
+                                canRequestFocus: false,
+                                descendantsAreFocusable: false),
+                            child: const Text('CANCEL'),
+                          ),
                           const SizedBox(width: 16),
                           StyledButton(
                             onPressed: () async {
