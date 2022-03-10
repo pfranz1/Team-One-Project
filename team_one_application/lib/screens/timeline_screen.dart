@@ -64,7 +64,7 @@ class TimelineScreen extends StatelessWidget {
           ],
         ),
         body: Center(
-          child: Column(
+          child: Row(
             children: [
               if (_hasFilter)
                 FilterView(filterController: appController.filterController!),

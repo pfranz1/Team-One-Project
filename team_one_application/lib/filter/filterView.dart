@@ -84,6 +84,7 @@ class _FriendsListState extends State<FriendsList> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(border: Border.all(width: 2.0)),
+      height: MediaQuery.of(context).size.height - 120,
       child: Column(
         children: [
           if (widget.friends != null && widget.friends!.isNotEmpty)
@@ -115,13 +116,16 @@ class FriendElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: callback,
-        style: ElevatedButton.styleFrom(
-          primary: isSelected ? Colors.lightGreen : Colors.blue,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: ElevatedButton(
+          onPressed: callback,
+          style: ElevatedButton.styleFrom(
+            primary: isSelected ? Colors.lightGreen : Colors.blue,
+          ),
+          child: Text(friendRef.displayName ?? "No Name"),
         ),
-        child: Text(friendRef.displayName ?? "No Name"),
       ),
     );
   }
