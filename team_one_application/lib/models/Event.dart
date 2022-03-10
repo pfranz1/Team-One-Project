@@ -28,6 +28,25 @@ class Event {
     required this.desc,
     this.type = "generic",
   }) {}
+
+  Event.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        startTime = json['startTime'],
+        endTime = json['endTime'],
+        location = json['location'],
+        desc = json['description'],
+        type = json['type'],
+        daysOfWeek = json['daysOfWeek'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'startTime': startTime,
+        'endTime': endTime,
+        'location': location,
+        'description': desc,
+        'type': type,
+        'daysOfWeek': daysOfWeek
+      };
 }
 
 //Lecture Class
@@ -48,18 +67,18 @@ class Lecture extends Event {
    * professor-name of professor teaching lecture
    * isSkippable-bool value for user to determine if lecture is skippable 
    */
-  Lecture(
-      String lName,
-      String lStartTime,
-      String lEndTime,
-      String lLocation,
-      List<String> lDaysOfWeek,
-      String lDesc,
+  Lecture({
+      required String lName,
+      required String lStartTime,
+      required String lEndTime,
+      required String lLocation,
+      required List<String> lDaysOfWeek,
+      required String lDesc,
       this.isOnline,
       this.isInPerson,
       this.isHybrid,
-      this.professor,
-      this.isSkippable)
+      required this.professor,
+      this.isSkippable})
       : super(
           name: lName,
           startTime: lStartTime,
@@ -69,6 +88,22 @@ class Lecture extends Event {
           desc: lDesc,
           type: "Lecture",
         ) {}
+
+  Lecture.fromJson(Map<String, dynamic> json)
+      : isOnline = json['isOnline'],
+        isInPerson = json['isInPerson'],
+        isHybrid = json['isHybrid'],
+        professor = json['professor'],
+        isSkippable = json['isSkippable'],
+        super.fromJson(json);
+
+  Map<String, dynamic> toJson() => {
+        'isOnline': isOnline,
+        'isInPerson': isInPerson,
+        'isHybrid': isHybrid,
+        'professor': professor,
+        'isSkippable': isSkippable
+      }..addAll(super.toJson());
 }
 
 //OfficeHour Class
@@ -81,15 +116,15 @@ class OfficeHour extends Event {
    * o******-OfficeHour class variables used for super constructor
    * isOnline-bool value to indicate if office hours are online
    */
-  OfficeHour(
-    String oName,
-    String oStartTime,
-    String oEndTime,
-    String oLocation,
-    List<String> oDaysOfWeek,
-    String oDesc,
-    bool this.isOnline,
-  ) : super(
+  OfficeHour({
+    required String oName,
+    required String oStartTime,
+    required String oEndTime,
+    required String oLocation,
+    required List<String> oDaysOfWeek,
+    required String oDesc,
+    required bool this.isOnline,
+  }) : super(
           name: oName,
           startTime: oStartTime,
           endTime: oEndTime,
@@ -98,6 +133,13 @@ class OfficeHour extends Event {
           desc: oDesc,
           type: "Office Hour",
         ) {}
+
+  OfficeHour.fromJson(Map<String, dynamic> json)
+      : isOnline = json['isOnline'],
+        super.fromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      {'isOnline': isOnline}..addAll(super.toJson());
 }
 
 //ClubMeeting Class
@@ -129,6 +171,61 @@ class ClubMeeting extends Event {
           desc: cDesc,
           type: "Club Meeting",
         ) {}
+
+  ClubMeeting.fromJson(Map<String, dynamic> json)
+      : acronym = json['acronym'],
+        super.fromJson(json);
+
+  Map<String, dynamic> toJson() => {'acronym': acronym}..addAll(super.toJson());
 }
 
-void main() {}
+void main() {
+  List<String> daysOfWeek = ["monday", "tuesday", "wednesday"];
+  Event preEvent = new Event(
+      name: "name",
+      desc: "desc",
+      location: "location",
+      startTime: "startTime",
+      endTime: "endTime",
+      type: "type",
+      daysOfWeek: daysOfWeek);
+  final testJson = preEvent.toJson();
+  Event postEvent = Event.fromJson(testJson);
+  print(postEvent);
+
+  Lecture preLecture = Lecture(
+      lName: "lName",
+      lStartTime: "lStartTime",
+      lEndTime: "lEndTime",
+      lLocation: "lLocation",
+      lDaysOfWeek: daysOfWeek,
+      lDesc: "lDesc",
+      isOnline: true,
+      isInPerson: false,
+      isHybrid: false,
+      professor: "professor",
+      isSkippable: false);
+  final lTestJson = preLecture.toJson();
+  Lecture postLecture = Lecture.fromJson(lTestJson);
+  print(postLecture);
+
+  OfficeHour preOffice = OfficeHour(
+      oName: "oName",
+      oStartTime: "oStart",
+      oEndTime: "oEnd",
+      oLocation: "oLoca",
+      oDaysOfWeek: daysOfWeek,
+      oDesc: "oDesc",
+      isOnline: true);
+  final oTest = preOffice.toJson();
+  OfficeHour postOffice = OfficeHour.fromJson(oTest);
+
+  Event eveOffice = new OfficeHour(
+      oName: "eoName",
+      oStartTime: "eoStartTime",
+      oEndTime: "eoEndTime",
+      oLocation: "eoLocation",
+      oDaysOfWeek: daysOfWeek,
+      oDesc: "eoDesc",
+      isOnline: false);
+}
