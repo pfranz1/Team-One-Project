@@ -82,20 +82,39 @@ class _FriendsListState extends State<FriendsList> {
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+    List<FriendElement> friendsList = <FriendElement>[];
+    if (widget.friends != null && widget.friends!.isNotEmpty)
+      for (final friend in widget.friends!
+          .asMap()
+          .entries) //As map is the easiest way to get index with a value
+        friendsList.add(FriendElement(
+          friendRef: friend.value,
+          callback: () => selectIndex(friend.key),
+          isSelected: currentIndex == friend.key,
+        ));
+
     return Container(
       decoration: BoxDecoration(border: Border.all(width: 2.0)),
-      height: MediaQuery.of(context).size.height - 120,
+      height: MediaQuery.of(context).size.height - 300,
+      width: 150,
       child: Column(
         children: [
-          if (widget.friends != null && widget.friends!.isNotEmpty)
-            for (final friend in widget.friends!
-                .asMap()
-                .entries) //As map is the easiest way to get index with a value
-              FriendElement(
-                friendRef: friend.value,
-                callback: () => selectIndex(friend.key),
-                isSelected: currentIndex == friend.key,
-              ),
+          Text("Friends:"),
+          Container(
+            height: 350,
+            width: 150,
+            child: ListView.separated(
+                itemCount: friendsList.length,
+                itemBuilder: (context, index) {
+                  return friendsList[index];
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    color: Colors.black,
+                  );
+                }),
+          ),
         ],
       ),
     );
