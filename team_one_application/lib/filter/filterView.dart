@@ -96,13 +96,23 @@ class _FriendsListState extends State<FriendsList> {
 
     return Container(
       decoration: BoxDecoration(border: Border.all(width: 2.0)),
-      height: MediaQuery.of(context).size.height - 300,
+      height: MediaQuery.of(context).size.height * .80,
       width: 150,
       child: Column(
         children: [
-          Text("Friends:"),
+          Text(
+            "Friends:",
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          //SizedBox adds space between Friends title and ListView
+          SizedBox(
+            height: 20,
+          ),
+          //List View needs container to know rendering boundaries
           Container(
-            height: 350,
+            height: MediaQuery.of(context).size.height * .7,
             width: 150,
             child: ListView.separated(
                 itemCount: friendsList.length,
@@ -141,9 +151,11 @@ class FriendElement extends StatelessWidget {
         child: ElevatedButton(
           onPressed: callback,
           style: ElevatedButton.styleFrom(
-            primary: isSelected ? Colors.lightGreen : Colors.blue,
+            primary: isSelected ? Colors.grey : Colors.white,
           ),
-          child: Text(friendRef.displayName ?? "No Name"),
+          child: Text(friendRef.displayName ?? "No Name",
+              style: TextStyle(color: Colors.black),
+              textAlign: TextAlign.center),
         ),
       ),
     );
