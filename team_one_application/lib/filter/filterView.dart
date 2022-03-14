@@ -115,6 +115,9 @@ class _FriendsListState extends State<FriendsList> {
             height: MediaQuery.of(context).size.height * .7,
             width: 150,
             child: ListView.separated(
+                //ScrollController needed since two list views (filter view
+                // and the calendar) will be on the screen
+                controller: ScrollController(),
                 itemCount: friendsList.length,
                 itemBuilder: (context, index) {
                   return friendsList[index];

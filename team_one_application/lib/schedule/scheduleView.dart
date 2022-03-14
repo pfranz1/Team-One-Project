@@ -46,7 +46,9 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           if (widget.state.isLoading) Text("Loading..."),
           if (widget.state.isError) Text("Error!"),
           Container(
-            child: SfCalendar(),
+            child: SfCalendar(
+              view: CalendarView.workWeek,
+            ),
             width: MediaQuery.of(context).size.width * .70,
             height: MediaQuery.of(context).size.height * .80,
           ),
