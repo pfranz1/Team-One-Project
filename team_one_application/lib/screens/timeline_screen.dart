@@ -68,6 +68,9 @@ class TimelineScreen extends StatelessWidget {
             children: [
               if (_hasFilter)
                 FilterView(filterController: appController.filterController!),
+              SizedBox(
+                width: 40,
+              ),
               if (_hasSelected)
                 ScheduleView(
                     scheduleController: appController.scheduleController!),

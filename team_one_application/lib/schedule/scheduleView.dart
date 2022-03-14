@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
 import 'package:team_one_application/schedule/scheduleController.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key, required this.scheduleController})
@@ -44,6 +45,11 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           if (widget.state.isDone) Text(widget.state.schedule.toString()),
           if (widget.state.isLoading) Text("Loading..."),
           if (widget.state.isError) Text("Error!"),
+          Container(
+            child: SfCalendar(),
+            width: MediaQuery.of(context).size.width * .70,
+            height: MediaQuery.of(context).size.height * .80,
+          ),
         ],
       ),
     );
