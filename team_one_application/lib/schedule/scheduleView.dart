@@ -34,12 +34,9 @@ class ScheduleVisualElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height:
-          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
       width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
         children: [
-          Text('ScheduleView ${state.uId}'),
           if (state.isDone) LoadedSchedule(schedule: state.schedule),
           if (state.isLoading) Text("Loading..."),
           if (state.isError) Text("Error!"),
@@ -63,9 +60,22 @@ class _LoadedScheduleState extends State<LoadedSchedule> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
-        child: Text(widget.schedule.toString()),
-      ),
+      height:
+          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+      child: Column(children: [
+        Expanded(
+          flex: 2,
+          child: Text("<Name>'s Schedule"),
+        ),
+        Expanded(
+          flex: 5,
+          child: Text("Calander"),
+        ),
+        Expanded(
+          flex: 1,
+          child: Text("Further Info"),
+        )
+      ]),
     );
   }
 }
