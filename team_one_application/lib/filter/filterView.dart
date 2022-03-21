@@ -82,20 +82,22 @@ class _FriendsListState extends State<FriendsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(border: Border.all(width: 2.0)),
-      child: Column(
-        children: [
-          if (widget.friends != null && widget.friends!.isNotEmpty)
-            for (final friend in widget.friends!
-                .asMap()
-                .entries) //As map is the easiest way to get index with a value
-              FriendElement(
-                friendRef: friend.value,
-                callback: () => selectIndex(friend.key),
-                isSelected: currentIndex == friend.key,
-              ),
-        ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(border: Border.all(width: 2.0)),
+        child: Column(
+          children: [
+            if (widget.friends != null && widget.friends!.isNotEmpty)
+              for (final friend in widget.friends!
+                  .asMap()
+                  .entries) //As map is the easiest way to get index with a value
+                FriendElement(
+                  friendRef: friend.value,
+                  callback: () => selectIndex(friend.key),
+                  isSelected: currentIndex == friend.key,
+                ),
+          ],
+        ),
       ),
     );
   }
