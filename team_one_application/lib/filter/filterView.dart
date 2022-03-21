@@ -118,14 +118,25 @@ class FriendElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.black))),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Text(friendRef.name),
+    return InkWell(
+      onTap: callback,
+      hoverColor: Colors.green,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black)),
+            color: isSelected ? Colors.blueGrey[400] : Colors.blueGrey[600]),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Text(
+              friendRef.name,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .copyWith(color: isSelected ? Colors.white : Colors.black),
+            ),
+          ),
         ),
       ),
     );
