@@ -34,6 +34,7 @@ class FilterVisualElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.3,
       child: Column(
         children: [
           if (filterState.isDone)
@@ -117,12 +118,11 @@ class FriendElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: callback,
-        style: ElevatedButton.styleFrom(
-          primary: isSelected ? Colors.lightGreen : Colors.blue,
-        ),
+    return Center(
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.black))),
         child: Text(friendRef.name),
       ),
     );
