@@ -118,12 +118,15 @@ class FriendElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.black))),
-        child: Text(friendRef.name),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: Colors.black))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(friendRef.name),
+        ),
       ),
     );
   }
