@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:team_one_application/models/Event.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
 
 class ScheduleController extends ChangeNotifier {
@@ -23,8 +24,16 @@ class ScheduleController extends ChangeNotifier {
   }
 
   // I would love if this was move to a db proxy file inside of this component file
-  Future<List<String>?> fetchSchedule(String uID) async {
-    final dummyData = [uID, "Event One", "Event Two", "Event Three"];
+  Future<List<Event>?> fetchSchedule(String uID) async {
+    final dummyData = [
+      Event(
+          name: "Event",
+          startTime: "0930A",
+          endTime: "1030A",
+          location: "HUBERT Hall",
+          daysOfWeek: ["m", "w"],
+          desc: "Generic Event"),
+    ];
     await Future.delayed(Duration(seconds: 2));
     return dummyData;
   }
