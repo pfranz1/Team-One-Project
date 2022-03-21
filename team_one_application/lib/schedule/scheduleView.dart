@@ -24,26 +24,24 @@ class ScheduleView extends StatelessWidget {
   }
 }
 
-class ScheduleVisualElement extends StatefulWidget {
+class ScheduleVisualElement extends StatelessWidget {
   const ScheduleVisualElement({Key? key, required this.state})
       : super(key: key);
 
   final ScheduleState state;
 
   @override
-  _ScheduleVisualElementState createState() => _ScheduleVisualElementState();
-}
-
-class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
+      height:
+          MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+      width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
         children: [
-          Text('ScheduleView ${widget.state.uId}'),
-          if (widget.state.isDone) Text(widget.state.schedule.toString()),
-          if (widget.state.isLoading) Text("Loading..."),
-          if (widget.state.isError) Text("Error!"),
+          Text('ScheduleView ${state.uId}'),
+          if (state.isDone) Text(state.schedule.toString()),
+          if (state.isLoading) Text("Loading..."),
+          if (state.isError) Text("Error!"),
         ],
       ),
     );
