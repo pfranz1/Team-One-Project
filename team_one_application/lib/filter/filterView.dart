@@ -86,7 +86,7 @@ class _FriendsListState extends State<FriendsList> {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(border: Border.all(width: 2.0)),
-        child: Column(
+        child: ListView(
           children: [
             if (widget.friends != null && widget.friends!.isNotEmpty)
               for (final friend in widget.friends!
