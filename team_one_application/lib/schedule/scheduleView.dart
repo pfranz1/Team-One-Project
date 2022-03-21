@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_one_application/models/Event.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
 import 'package:team_one_application/schedule/scheduleController.dart';
 
@@ -39,10 +40,31 @@ class ScheduleVisualElement extends StatelessWidget {
       child: Column(
         children: [
           Text('ScheduleView ${state.uId}'),
-          if (state.isDone) Text(state.schedule.toString()),
+          if (state.isDone) LoadedSchedule(schedule: state.schedule),
           if (state.isLoading) Text("Loading..."),
           if (state.isError) Text("Error!"),
         ],
+      ),
+    );
+  }
+}
+
+class LoadedSchedule extends StatefulWidget {
+  const LoadedSchedule({Key? key, List<Event>? this.schedule})
+      : super(key: key);
+
+  final List<Event>? schedule;
+
+  @override
+  State<LoadedSchedule> createState() => _LoadedScheduleState();
+}
+
+class _LoadedScheduleState extends State<LoadedSchedule> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text(widget.schedule.toString()),
       ),
     );
   }
