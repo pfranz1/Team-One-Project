@@ -85,7 +85,10 @@ class _FriendsListState extends State<FriendsList> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        decoration: BoxDecoration(border: Border.all(width: 2.0)),
+        decoration: BoxDecoration(
+            border: const Border(
+                right: BorderSide(color: Colors.black, width: 2.0)),
+            color: Colors.blueGrey[100]),
         child: ListView(
           children: [
             if (widget.friends != null && widget.friends!.isNotEmpty)
