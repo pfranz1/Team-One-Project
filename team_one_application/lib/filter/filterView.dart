@@ -77,7 +77,7 @@ class _FriendsListState extends State<FriendsList> {
       currentIndex = newIndex;
     });
     // Calling the callback with the UId of whoever was selected
-    widget.onFriendSelect(widget.friends![newIndex].uId);
+    widget.onFriendSelect(widget.friends![newIndex].documentID);
   }
 
   @override
@@ -121,7 +121,7 @@ class FriendElement extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: isSelected ? Colors.lightGreen : Colors.blue,
         ),
-        child: Text(friendRef.displayName ?? "No Name"),
+        child: Text(friendRef.name),
       ),
     );
   }
