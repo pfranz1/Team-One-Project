@@ -93,7 +93,29 @@ class Callender extends StatelessWidget {
           right: 0,
           child: DayOfWeekRow(),
         ),
+        Positioned(
+          top: 0,
+          left: 0,
+          bottom: 0,
+          child: TimeOfDayColumn(),
+        ),
       ],
+    );
+  }
+}
+
+class TimeOfDayColumn extends StatelessWidget {
+  const TimeOfDayColumn({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 2.0),
+      ),
+      child: Column(
+        children: [Text("6")],
+      ),
     );
   }
 }
