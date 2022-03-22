@@ -145,32 +145,6 @@ class Callender extends StatelessWidget {
                   width: width - todWidth,
                   rowCount: TimeOfDayColumn.timesOfDay.length,
                   columnCount: DayOfWeekRow.daysOfTheWeek.length)),
-          // Positioned(
-          //     top: ((height - dowHeight) /
-          //             DayOfWeekRow.daysOfTheWeek.length *
-          //             6.5) +
-          //         dowHeight,
-          //     left: todWidth,
-          //     right: 0,
-          //     child: Container(
-          //       decoration: BoxDecoration(
-          //         border: Border.all(width: 2.0),
-          //         color: Colors.green,
-          //       ),
-          //     )),
-          // Positioned(
-          //     top: dowHeight,
-          //     bottom: 0,
-          //     left:
-          //         ((width - todWidth) / TimeOfDayColumn.timesOfDay.length * 2) +
-          //             todWidth,
-          //     // left: 200,
-          //     child: Container(
-          //       decoration: BoxDecoration(
-          //         border: Border.all(width: 2.0),
-          //         color: Colors.green,
-          //       ),
-          //     )),
         ],
       ),
     );
