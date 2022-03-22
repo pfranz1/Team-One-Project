@@ -131,6 +131,27 @@ class Callender extends StatelessWidget {
               width: todWidth,
             ),
           ),
+          Positioned(
+              top: ((height - dowHeight) / 7 * 6.5) + dowHeight,
+              left: todWidth,
+              right: 0,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2.0),
+                  color: Colors.green,
+                ),
+              )),
+          Positioned(
+              top: dowHeight,
+              bottom: 0,
+              left: ((width - todWidth) / 7 * 2) + todWidth,
+              // left: 200,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2.0),
+                  color: Colors.green,
+                ),
+              )),
         ],
       ),
     );
@@ -152,7 +173,6 @@ class TimeOfDayColumn extends StatelessWidget {
     "2",
     "4",
     "6",
-    "8"
   ];
 
   // static const List<String> _timesOfDay = [
