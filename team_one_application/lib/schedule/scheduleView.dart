@@ -107,6 +107,37 @@ class Callender extends StatelessWidget {
 class TimeOfDayColumn extends StatelessWidget {
   const TimeOfDayColumn({Key? key}) : super(key: key);
 
+  static const List<String> _timesOfDay = [
+    "",
+    "6",
+    "8",
+    "10",
+    "12",
+    "2",
+    "4",
+    "6",
+    "8"
+  ];
+
+  // static const List<String> _timesOfDay = [
+  //   "",
+  //   "6:00 AM",
+  //   "7:00 AM",
+  //   "8:00 AM",
+  //   "9:00 AM",
+  //   "10:00 AM",
+  //   "11:00 AM",
+  //   "12:00 AM",
+  //   "1:00 PM",
+  //   "2:00 PM",
+  //   "3:00 PM",
+  //   "4:00 PM",
+  //   "5:00 PM",
+  //   "6:00 PM",
+  //   "7:00 PM",
+  //   "8:00 PM"
+  // ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,7 +145,10 @@ class TimeOfDayColumn extends StatelessWidget {
         border: Border.all(width: 2.0),
       ),
       child: Column(
-        children: [Text("6")],
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          for (final String time in _timesOfDay) MajorEntry(label: time)
+        ],
       ),
     );
   }
@@ -126,6 +160,7 @@ class DayOfWeekRow extends StatelessWidget {
   }) : super(key: key);
 
   static const List<String> _daysOfTheWeek = [
+    "",
     "S",
     "M",
     "T",
