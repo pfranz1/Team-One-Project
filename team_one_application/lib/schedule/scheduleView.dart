@@ -139,32 +139,32 @@ class Callender extends StatelessWidget {
                   width: width - todWidth,
                   rowCount: TimeOfDayColumn.timesOfDay.length + 1,
                   columnCount: DayOfWeekRow.daysOfTheWeek.length + 1)),
-          Positioned(
-              top: ((height - dowHeight) /
-                      DayOfWeekRow.daysOfTheWeek.length *
-                      6.5) +
-                  dowHeight,
-              left: todWidth,
-              right: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2.0),
-                  color: Colors.green,
-                ),
-              )),
-          Positioned(
-              top: dowHeight,
-              bottom: 0,
-              left:
-                  ((width - todWidth) / TimeOfDayColumn.timesOfDay.length * 2) +
-                      todWidth,
-              // left: 200,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2.0),
-                  color: Colors.green,
-                ),
-              )),
+          // Positioned(
+          //     top: ((height - dowHeight) /
+          //             DayOfWeekRow.daysOfTheWeek.length *
+          //             6.5) +
+          //         dowHeight,
+          //     left: todWidth,
+          //     right: 0,
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         border: Border.all(width: 2.0),
+          //         color: Colors.green,
+          //       ),
+          //     )),
+          // Positioned(
+          //     top: dowHeight,
+          //     bottom: 0,
+          //     left:
+          //         ((width - todWidth) / TimeOfDayColumn.timesOfDay.length * 2) +
+          //             todWidth,
+          //     // left: 200,
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         border: Border.all(width: 2.0),
+          //         color: Colors.green,
+          //       ),
+          //     )),
         ],
       ),
     );
