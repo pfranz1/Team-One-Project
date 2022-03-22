@@ -144,15 +144,15 @@ class DayOfWeekRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          for (final String dow in _daysOfTheWeek) DayOfWeekEntry(label: dow)
+          for (final String dow in _daysOfTheWeek) MajorEntry(label: dow)
         ],
       ),
     );
   }
 }
 
-class DayOfWeekEntry extends StatelessWidget {
-  const DayOfWeekEntry({
+class MajorEntry extends StatelessWidget {
+  const MajorEntry({
     Key? key,
     required this.label,
   }) : super(key: key);
@@ -169,6 +169,26 @@ class DayOfWeekEntry extends StatelessWidget {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             overflow: TextOverflow.clip),
+      ),
+    );
+  }
+}
+
+class MinorEntry extends StatelessWidget {
+  const MinorEntry({
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        label,
+        style: TextStyle(fontSize: 16, overflow: TextOverflow.clip),
       ),
     );
   }
