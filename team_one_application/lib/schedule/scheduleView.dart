@@ -132,7 +132,10 @@ class Callender extends StatelessWidget {
             ),
           ),
           Positioned(
-              top: ((height - dowHeight) / 7 * 6.5) + dowHeight,
+              top: ((height - dowHeight) /
+                      DayOfWeekRow.daysOfTheWeek.length *
+                      6.5) +
+                  dowHeight,
               left: todWidth,
               right: 0,
               child: Container(
@@ -144,7 +147,9 @@ class Callender extends StatelessWidget {
           Positioned(
               top: dowHeight,
               bottom: 0,
-              left: ((width - todWidth) / 7 * 2) + todWidth,
+              left:
+                  ((width - todWidth) / TimeOfDayColumn.timesOfDay.length * 2) +
+                      todWidth,
               // left: 200,
               child: Container(
                 decoration: BoxDecoration(
@@ -165,7 +170,7 @@ class TimeOfDayColumn extends StatelessWidget {
   final double height;
   final double width;
 
-  static const List<String> _timesOfDay = [
+  static const List<String> timesOfDay = [
     "6",
     "8",
     "10",
@@ -206,7 +211,7 @@ class TimeOfDayColumn extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            for (final String time in _timesOfDay) MajorEntry(label: time)
+            for (final String time in timesOfDay) MajorEntry(label: time)
           ],
         ),
       ),
@@ -221,15 +226,7 @@ class DayOfWeekRow extends StatelessWidget {
   final double height;
   final double width;
 
-  static const List<String> _daysOfTheWeek = [
-    "S",
-    "M",
-    "T",
-    "W",
-    "T",
-    "F",
-    "S"
-  ];
+  static const List<String> daysOfTheWeek = ["S", "M", "T", "W", "T", "F", "S"];
 
   @override
   Widget build(BuildContext context) {
@@ -243,7 +240,7 @@ class DayOfWeekRow extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            for (final String dow in _daysOfTheWeek) MajorEntry(label: dow)
+            for (final String dow in daysOfTheWeek) MajorEntry(label: dow)
           ],
         ),
       ),
