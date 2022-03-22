@@ -105,6 +105,9 @@ class Callender extends StatelessWidget {
   final double height;
   final double width;
 
+  static const double dowHeight = 80; // Day of week bar height
+  static const double todWidth = 80; // Time of day bar width
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,16 +117,18 @@ class Callender extends StatelessWidget {
         children: [
           Positioned(
             top: 0,
-            left: 0,
-            right: 0,
-            child: DayOfWeekRow(),
+            left: todWidth,
+            child: DayOfWeekRow(
+              height: dowHeight,
+              width: width - todWidth,
+            ),
           ),
           Positioned(
-            top: 0,
+            top: dowHeight,
             left: 0,
             child: TimeOfDayColumn(
-              height: height,
-              width: 80,
+              height: height - dowHeight,
+              width: todWidth,
             ),
           ),
         ],
@@ -190,12 +195,13 @@ class TimeOfDayColumn extends StatelessWidget {
 }
 
 class DayOfWeekRow extends StatelessWidget {
-  const DayOfWeekRow({
-    Key? key,
-  }) : super(key: key);
+  const DayOfWeekRow({Key? key, required this.height, required this.width})
+      : super(key: key);
+
+  final double height;
+  final double width;
 
   static const List<String> _daysOfTheWeek = [
-    "",
     "S",
     "M",
     "T",
@@ -207,15 +213,19 @@ class DayOfWeekRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(width: 2.0),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          for (final String dow in _daysOfTheWeek) MajorEntry(label: dow)
-        ],
+    return SizedBox(
+      height: height,
+      width: width,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 2.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            for (final String dow in _daysOfTheWeek) MajorEntry(label: dow)
+          ],
+        ),
       ),
     );
   }
@@ -234,12 +244,15 @@ class MajorEntry extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Text(
-          label,
-          style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              overflow: TextOverflow.clip),
+        child: Center(
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.clip),
+          ),
         ),
       ),
     );
@@ -260,7 +273,11 @@ class MinorEntry extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Text(
         label,
-        style: TextStyle(fontSize: 16, overflow: TextOverflow.clip),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 16,
+          overflow: TextOverflow.clip,
+        ),
       ),
     );
   }
