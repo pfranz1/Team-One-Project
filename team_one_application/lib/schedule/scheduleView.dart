@@ -137,8 +137,8 @@ class Callender extends StatelessWidget {
               child: Cells(
                   height: height - dowHeight,
                   width: width - todWidth,
-                  rowCount: TimeOfDayColumn.timesOfDay.length + 1,
-                  columnCount: DayOfWeekRow.daysOfTheWeek.length + 1)),
+                  rowCount: TimeOfDayColumn.timesOfDay.length,
+                  columnCount: DayOfWeekRow.daysOfTheWeek.length)),
           // Positioned(
           //     top: ((height - dowHeight) /
           //             DayOfWeekRow.daysOfTheWeek.length *
@@ -183,8 +183,8 @@ class Cells extends StatelessWidget {
   final double height;
   final double width;
 
-  final double rowCount;
-  final double columnCount;
+  final int rowCount;
+  final int columnCount;
 
   @override
   Widget build(BuildContext context) {
@@ -204,16 +204,20 @@ class GridPainter extends CustomPainter {
     required this.columnCount,
   }) : super();
 
-  final double rowCount;
-  final double columnCount;
+  final int rowCount;
+  final int columnCount;
   @override
   void paint(Canvas canvas, Size size) {
-    final p1 = Offset(0, 0);
-    final p2 = Offset(250, 150);
     final paint = Paint()
       ..color = Colors.black
       ..strokeWidth = 4;
-    canvas.drawLine(p1, p2, paint);
+    //Horizontal Lines
+    final commonRatio = size.height / rowCount;
+    final offset = commonRatio * 0.5;
+    for (int i = 0; i < rowCount; i++) {
+      final y = commonRatio * i + offset;
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
   }
 
   @override
@@ -237,6 +241,8 @@ class TimeOfDayColumn extends StatelessWidget {
     "2",
     "4",
     "6",
+    "8",
+    "10",
   ];
 
   // static const List<String> _timesOfDay = [
