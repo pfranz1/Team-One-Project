@@ -112,7 +112,7 @@ class Callender extends StatelessWidget {
   final double width;
 
   static const double dowHeight = 80; // Day of week bar height
-  static const double todWidth = 80; // Time of day bar width
+  static const double todWidth = 100; // Time of day bar width
 
   @override
   Widget build(BuildContext context) {
@@ -223,32 +223,13 @@ class TimeOfDayColumn extends StatelessWidget {
     "6 AM",
     "8 AM",
     "10 AM",
-    "12 AM",
+    "12 PM",
     "2 PM",
     "4 PM",
     "6 PM",
     "8 PM",
     "10 PM",
   ];
-
-  // static const List<String> _timesOfDay = [
-  //   "",
-  //   "6:00 AM",
-  //   "7:00 AM",
-  //   "8:00 AM",
-  //   "9:00 AM",
-  //   "10:00 AM",
-  //   "11:00 AM",
-  //   "12:00 AM",
-  //   "1:00 PM",
-  //   "2:00 PM",
-  //   "3:00 PM",
-  //   "4:00 PM",
-  //   "5:00 PM",
-  //   "6:00 PM",
-  //   "7:00 PM",
-  //   "8:00 PM"
-  // ];
 
   @override
   Widget build(BuildContext context) {
