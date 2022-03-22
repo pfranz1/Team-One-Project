@@ -88,7 +88,13 @@ class _LoadedScheduleState extends State<LoadedSchedule> {
           flex: 1,
           child: Text("<Name>'s Schedule"),
         ),
-        Callender(height: widget.height * 0.6, width: widget.width),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+              decoration: BoxDecoration(border: Border.all()),
+              child:
+                  Callender(height: widget.height * 0.6, width: widget.width)),
+        ),
         const Expanded(
           flex: 2,
           child: Text("Further Info"),
@@ -240,15 +246,15 @@ class TimeOfDayColumn extends StatelessWidget {
   final double width;
 
   static const List<String> timesOfDay = [
-    "6",
-    "8",
-    "10",
-    "12",
-    "2",
-    "4",
-    "6",
-    "8",
-    "10",
+    "6 AM",
+    "8 AM",
+    "10 AM",
+    "12 AM",
+    "2 PM",
+    "4 PM",
+    "6 PM",
+    "8 PM",
+    "10 PM",
   ];
 
   // static const List<String> _timesOfDay = [
@@ -277,7 +283,7 @@ class TimeOfDayColumn extends StatelessWidget {
       height: height,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 2.0),
+          border: Border(right: BorderSide()),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -305,9 +311,7 @@ class DayOfWeekRow extends StatelessWidget {
       height: height,
       width: width,
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 2.0),
-        ),
+        decoration: BoxDecoration(border: Border(bottom: BorderSide())),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
