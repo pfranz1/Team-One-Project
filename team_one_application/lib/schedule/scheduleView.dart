@@ -69,13 +69,85 @@ class _LoadedScheduleState extends State<LoadedSchedule> {
         ),
         Expanded(
           flex: 5,
-          child: Text("Calander"),
+          child: Callender(),
         ),
         Expanded(
           flex: 1,
           child: Text("Further Info"),
         )
       ]),
+    );
+  }
+}
+
+class Callender extends StatelessWidget {
+  const Callender({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: DayOfWeekRow(),
+        ),
+      ],
+    );
+  }
+}
+
+class DayOfWeekRow extends StatelessWidget {
+  const DayOfWeekRow({
+    Key? key,
+  }) : super(key: key);
+
+  static const List<String> _daysOfTheWeek = [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S"
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(width: 2.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          for (final String dow in _daysOfTheWeek) DayOfWeekEntry(label: dow)
+        ],
+      ),
+    );
+  }
+}
+
+class DayOfWeekEntry extends StatelessWidget {
+  const DayOfWeekEntry({
+    Key? key,
+    required this.label,
+  }) : super(key: key);
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        label,
+        style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.clip),
+      ),
     );
   }
 }
