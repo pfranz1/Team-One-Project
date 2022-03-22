@@ -34,7 +34,7 @@ class ScheduleController extends ChangeNotifier {
           daysOfWeek: ["m", "w"],
           desc: "Generic Event"),
     ];
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 50));
     return dummyData;
   }
 }

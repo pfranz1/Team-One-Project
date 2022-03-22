@@ -39,7 +39,7 @@ class FilterController extends ChangeNotifier {
       FriendRef(name: "Georgie Longs", documentID: "USERID-4"),
     ];
     //Wait 2 seconds then return dummy data
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(milliseconds: 50));
     return dummyData;
   }
 }
