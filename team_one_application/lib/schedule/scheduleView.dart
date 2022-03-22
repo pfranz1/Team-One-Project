@@ -132,6 +132,14 @@ class Callender extends StatelessWidget {
             ),
           ),
           Positioned(
+              top: dowHeight,
+              left: todWidth,
+              child: Cells(
+                  height: height - dowHeight,
+                  width: width - todWidth,
+                  rowCount: TimeOfDayColumn.timesOfDay.length + 1,
+                  columnCount: DayOfWeekRow.daysOfTheWeek.length + 1)),
+          Positioned(
               top: ((height - dowHeight) /
                       DayOfWeekRow.daysOfTheWeek.length *
                       6.5) +
@@ -160,6 +168,57 @@ class Callender extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class Cells extends StatelessWidget {
+  const Cells({
+    Key? key,
+    required this.height,
+    required this.width,
+    required this.rowCount,
+    required this.columnCount,
+  }) : super(key: key);
+
+  final double height;
+  final double width;
+
+  final double rowCount;
+  final double columnCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      width: width,
+      child: CustomPaint(
+        painter: GridPainter(rowCount: rowCount, columnCount: columnCount),
+      ),
+    );
+  }
+}
+
+class GridPainter extends CustomPainter {
+  GridPainter({
+    required this.rowCount,
+    required this.columnCount,
+  }) : super();
+
+  final double rowCount;
+  final double columnCount;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p1 = Offset(0, 0);
+    final p2 = Offset(250, 150);
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 4;
+    canvas.drawLine(p1, p2, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
 
