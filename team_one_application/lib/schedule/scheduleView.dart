@@ -218,6 +218,12 @@ class GridPainter extends CustomPainter {
       final y = commonRatio * i + offset;
       canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
     }
+    //Vertical Lines
+    final commonRatioV = size.width / columnCount;
+    for (int i = 1; i < columnCount; i++) {
+      final x = commonRatioV * i;
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
   }
 
   @override
