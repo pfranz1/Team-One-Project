@@ -40,44 +40,6 @@ class ScheduleVisualElement extends StatefulWidget {
 }
 
 class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
-  List<Event> events = <Event>[];
-
-  FirebaseFirestore? _instance;
-
-  void initState() {
-    getDataFromFireStore().then((value) => null);
-    super.initState();
-  }
-
-  Future<void> getDataFromFireStore() async {
-    _instance = FirebaseFirestore.instance;
-
-    CollectionReference calendarCollection =
-        _instance!.collection("CalendarCollection");
-
-    DocumentSnapshot snapshot = await calendarCollection.doc('1').get();
-    var data = snapshot.data() as Map;
-    var eventsData = data['events'] as List<dynamic>;
-
-    eventsData.forEach((eventData) {
-      Event meet = Event.fromJson(eventData);
-      events.add(meet);
-    });
-  }
-
-  Future uploadTestData() async {
-    final docEvent =
-        FirebaseFirestore.instance.collection('CalendarCollection').doc("1");
-
-    final json = {
-      'Subject': "Mastering Flutter",
-      'StartTime': '22 March 2022 at 08:00:00',
-      'EndTime': '22 March 2022 at 09:00:00'
-    };
-
-    await docEvent.set(json);
-  }
-
   @override
   Widget build(BuildContext context) {
     //getDataFromFireStore().then((value) => null); //caused appointments to duplicate
@@ -91,7 +53,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           Container(
             child: SfCalendar(
               view: CalendarView.week,
-              dataSource: MeetingDataSource(events),
+              dataSource: MeetingDataSource(widget.state.schedule),
               appointmentTextStyle:
                   const TextStyle(fontSize: 15, color: Colors.white),
             ),
