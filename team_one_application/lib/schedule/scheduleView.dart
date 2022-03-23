@@ -6,6 +6,7 @@ import 'package:team_one_application/schedule/scheduleController.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:team_one_application/models/Event.dart';
 
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key, required this.scheduleController})
@@ -39,7 +40,7 @@ class ScheduleVisualElement extends StatefulWidget {
 }
 
 class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
-  List<Meeting> _events = <Meeting>[];
+  List<Event> events = <Event>[];
 
   FirebaseFirestore? _instance;
 
@@ -59,8 +60,8 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
     var eventsData = data['events'] as List<dynamic>;
 
     eventsData.forEach((eventData) {
-      Meeting meet = Meeting.fromJson(eventData);
-      _events.add(meet);
+      Event meet = Event.fromJson(eventData);
+      events.add(meet);
     });
   }
 
@@ -90,7 +91,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           Container(
             child: SfCalendar(
               view: CalendarView.week,
-              dataSource: MeetingDataSource(_events),
+              dataSource: MeetingDataSource(events),
               appointmentTextStyle:
                   const TextStyle(fontSize: 15, color: Colors.white),
             ),
@@ -104,12 +105,12 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
 }
 
 class MeetingDataSource extends CalendarDataSource {
-  MeetingDataSource(List<Meeting> source) {
+  MeetingDataSource(List<Event> source) {
     appointments = getAppointments(source);
   }
 
-  //convert meeting model to appointments for syncfusion calendar
-  List<Appointment> getAppointments(List<Meeting> list) {
+  //convert event model to appointments for syncfusion calendar
+  List<Appointment> getAppointments(List<Event> list) {
     List<Appointment> meetings = <Appointment>[];
     List<Color> colorCollection = <Color>[];
     colorCollection.add(Colors.black);
@@ -123,9 +124,9 @@ class MeetingDataSource extends CalendarDataSource {
     colorCollection.add(Colors.yellow);
 
     for (int i = 0; i < list.length; i++) {
-      final String name = list[i].eventName;
-      DateTime startTime = list[i].from;
-      DateTime endTime = list[i].to;
+      final String name = list[i].name;
+      DateTime startTime = list[i].startTime;
+      DateTime endTime = list[i].endTime;
 
       meetings.add(Appointment(
         startTime: startTime,
@@ -136,28 +137,5 @@ class MeetingDataSource extends CalendarDataSource {
       ));
     }
     return meetings;
-  }
-}
-
-//meeting model to store data from firestore in
-class Meeting {
-  String eventName;
-  DateTime from;
-  DateTime to;
-  Color? background;
-  bool? isAllDay;
-
-  Meeting(
-      {required this.eventName,
-      required this.from,
-      required this.to,
-      this.background,
-      this.isAllDay});
-
-  factory Meeting.fromJson(Map<String, dynamic> json) {
-    return Meeting(
-        eventName: json['Subject'],
-        from: json['StartTime'].toDate(),
-        to: json['EndTime'].toDate());
   }
 }
