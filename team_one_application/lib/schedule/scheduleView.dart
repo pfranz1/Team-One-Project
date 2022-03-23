@@ -42,24 +42,34 @@ class ScheduleVisualElement extends StatefulWidget {
 class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
   @override
   Widget build(BuildContext context) {
-    //getDataFromFireStore().then((value) => null); //caused appointments to duplicate
     return Container(
       child: Column(
         children: [
           Text('ScheduleView ${widget.state.uId}'),
-          // if (widget.state.isDone) Text(widget.state.schedule.toString()),
-          // if (widget.state.isLoading) Text("Loading..."),
-          // if (widget.state.isError) Text("Error!"),
-          Container(
-            child: SfCalendar(
-              view: CalendarView.week,
-              dataSource: MeetingDataSource(widget.state.schedule),
-              appointmentTextStyle:
-                  const TextStyle(fontSize: 15, color: Colors.white),
+          if (widget.state.isError)
+            Container(
+              child: const Text("Error!"),
             ),
-            width: MediaQuery.of(context).size.width * .70,
-            height: MediaQuery.of(context).size.height * .80,
-          ),
+          if (widget.state.isLoading)
+            Text("Loading..."), //add loading animation
+          if (widget.state.isDone)
+            Container(
+              child: SfCalendar(
+                view: CalendarView.week,
+                allowedViews: const [
+                  CalendarView.week,
+                  CalendarView.workWeek,
+                  CalendarView.month
+                ],
+                timeSlotViewSettings:
+                    const TimeSlotViewSettings(startHour: 3, endHour: 23),
+                dataSource: MeetingDataSource(widget.state.schedule),
+                appointmentTextStyle:
+                    const TextStyle(fontSize: 15, color: Colors.white),
+              ),
+              width: MediaQuery.of(context).size.width * .70,
+              height: MediaQuery.of(context).size.height * .80,
+            ),
         ],
       ),
     );
@@ -73,7 +83,7 @@ class MeetingDataSource extends CalendarDataSource {
 
   //convert event model to appointments for syncfusion calendar
   List<Appointment> getAppointments(List<Event> list) {
-    List<Appointment> meetings = <Appointment>[];
+    List<Appointment> appointments = <Appointment>[];
     List<Color> colorCollection = <Color>[];
     colorCollection.add(Colors.black);
     colorCollection.add(Colors.blue);
@@ -86,18 +96,19 @@ class MeetingDataSource extends CalendarDataSource {
     colorCollection.add(Colors.yellow);
 
     for (int i = 0; i < list.length; i++) {
-      final String name = list[i].name;
-      DateTime startTime = list[i].startTime;
-      DateTime endTime = list[i].endTime;
+      final String eventName = list[i].name;
+      DateTime eventStartTime = list[i].startTime;
+      DateTime eventEndTime = list[i].endTime;
+      String? eventRecurrence = list[i].daysOfWeek;
 
-      meetings.add(Appointment(
-        startTime: startTime,
-        endTime: endTime,
-        subject: name,
-        color: colorCollection[i %
-            8], //prevents index value from going out-of-bounds of colorCollection
-      ));
+      appointments.add(Appointment(
+          startTime: eventStartTime,
+          endTime: eventEndTime,
+          subject: eventName,
+          color: colorCollection[i %
+              8], //prevents index value from going out-of-bounds of colorCollection
+          recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=[$eventRecurrence]'));
     }
-    return meetings;
+    return appointments;
   }
 }

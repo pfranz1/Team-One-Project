@@ -6,7 +6,7 @@ class Event {
   String? location;
   String? desc;
   String? type;
-  List<String>? daysOfWeek;
+  String? daysOfWeek;
 
   /*
    * Event Class Constructor
@@ -73,7 +73,7 @@ class Lecture extends Event {
       required DateTime lStartTime,
       required DateTime lEndTime,
       required String lLocation,
-      required List<String> lDaysOfWeek,
+      required String lDaysOfWeek,
       required String lDesc,
       this.isOnline,
       this.isInPerson,
@@ -122,7 +122,7 @@ class OfficeHour extends Event {
     required DateTime oStartTime,
     required DateTime oEndTime,
     required String oLocation,
-    required List<String> oDaysOfWeek,
+    required String oDaysOfWeek,
     required String oDesc,
     required bool this.isOnline,
   }) : super(
@@ -160,7 +160,7 @@ class ClubMeeting extends Event {
     DateTime cStartTime,
     DateTime cEndTime,
     String cLocation,
-    List<String> cDaysOfWeek,
+    String cDaysOfWeek,
     String cDesc,
     this.acronym,
   ) : super(
