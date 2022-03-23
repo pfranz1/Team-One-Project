@@ -1,6 +1,3 @@
-import 'dart:math';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +5,6 @@ import 'package:team_one_application/schedule/scheduelState.dart';
 import 'package:team_one_application/schedule/scheduleController.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class ScheduleView extends StatelessWidget {
@@ -48,11 +44,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
   FirebaseFirestore? _instance;
 
   void initState() {
-    // getDataFromFireStore().then((results) {
-    //   SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-    //     setState(() {});
-    //   });
-    // });
+    getDataFromFireStore().then((value) => null);
     super.initState();
   }
 
@@ -87,19 +79,20 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
 
   @override
   Widget build(BuildContext context) {
-    getDataFromFireStore().then((value) => null);
+    //getDataFromFireStore().then((value) => null); //caused appointments to duplicate
     return Container(
       child: Column(
         children: [
           Text('ScheduleView ${widget.state.uId}'),
-          if (widget.state.isDone) Text(widget.state.schedule.toString()),
-          if (widget.state.isLoading) Text("Loading..."),
-          if (widget.state.isError) Text("Error!"),
-          IconButton(onPressed: () => uploadTestData(), icon: Icon(Icons.add)),
+          // if (widget.state.isDone) Text(widget.state.schedule.toString()),
+          // if (widget.state.isLoading) Text("Loading..."),
+          // if (widget.state.isError) Text("Error!"),
           Container(
             child: SfCalendar(
               view: CalendarView.week,
               dataSource: MeetingDataSource(_events),
+              appointmentTextStyle:
+                  const TextStyle(fontSize: 15, color: Colors.white),
             ),
             width: MediaQuery.of(context).size.width * .70,
             height: MediaQuery.of(context).size.height * .80,
@@ -115,6 +108,7 @@ class MeetingDataSource extends CalendarDataSource {
     appointments = getAppointments(source);
   }
 
+  //convert meeting model to appointments for syncfusion calendar
   List<Appointment> getAppointments(List<Meeting> list) {
     List<Appointment> meetings = <Appointment>[];
     List<Color> colorCollection = <Color>[];
@@ -127,28 +121,25 @@ class MeetingDataSource extends CalendarDataSource {
     colorCollection.add(Colors.grey);
     colorCollection.add(Colors.brown);
     colorCollection.add(Colors.yellow);
-    colorCollection.add(Colors.white);
 
     for (int i = 0; i < list.length; i++) {
       final String name = list[i].eventName;
-      final DateTime today = DateTime.now();
-      final DateTime startTime =
-          DateTime(today.year, today.month, today.day, 9 + 3 * i, 0, 0);
-      final DateTime endTime = startTime.add(const Duration(hours: 2));
+      DateTime startTime = list[i].from;
+      DateTime endTime = list[i].to;
 
       meetings.add(Appointment(
-          startTime: startTime,
-          endTime: endTime,
-          subject: name,
-          color: colorCollection[i],
-          recurrenceRule: 
-          );
+        startTime: startTime,
+        endTime: endTime,
+        subject: name,
+        color: colorCollection[i %
+            8], //prevents index value from going out-of-bounds of colorCollection
+      ));
     }
-
     return meetings;
   }
 }
 
+//meeting model to store data from firestore in
 class Meeting {
   String eventName;
   DateTime from;
@@ -165,6 +156,8 @@ class Meeting {
 
   factory Meeting.fromJson(Map<String, dynamic> json) {
     return Meeting(
-        eventName: json['Subject'], from: DateTime.now(), to: DateTime.now());
+        eventName: json['Subject'],
+        from: json['StartTime'].toDate(),
+        to: json['EndTime'].toDate());
   }
 }
