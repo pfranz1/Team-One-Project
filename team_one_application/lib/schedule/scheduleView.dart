@@ -43,12 +43,11 @@ class ScheduleVisualElement extends StatefulWidget {
 }
 
 class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
-  List<Color> _colorCollection = <Color>[];
-  List<Meeting> events = <Meeting>[];
-  final databaseReference = FirebaseFirestore.instance;
+  List<Meeting> _events = <Meeting>[];
+
+  FirebaseFirestore? _instance;
 
   void initState() {
-    _initializeEventColor();
     // getDataFromFireStore().then((results) {
     //   SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
     //     setState(() {});
@@ -57,30 +56,21 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
     super.initState();
   }
 
-  // Future<void> getDataFromFireStore() async {
-  //   var snapShotsValue =
-  //       await databaseReference.collection('CalendarCollection').get();
+  Future<void> getDataFromFireStore() async {
+    _instance = FirebaseFirestore.instance;
 
-  //   final Random random = new Random();
-  //   List<Meeting> list = snapShotsValue.docs
-  //       .map((e) => Meeting(
-  //             eventName: e.data()['Subject'],
-  //             from: DateFormat('dd/MM/yyyy HH:mm:ss')
-  //                 .parse(e.data()['StartTime']),
-  //             to: DateFormat('dd/MM/yyyy HH:mm:ss').parse(e.data()['EndTime']),
-  //             // background: _colorCollection[random.nextInt(9)],
-  //             // isAllDay: false
-  //           ))
-  //       .toList();
-  //   setState(() {
-  //     events = list;
-  //   });
-  // }
-  Stream<List<Meeting>> getDataFromFireStore() => FirebaseFirestore.instance
-      .collection('CalendarCollection')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Meeting.fromJson(doc.data())).toList());
+    CollectionReference calendarCollection =
+        _instance!.collection("CalendarCollection");
+
+    DocumentSnapshot snapshot = await calendarCollection.doc('1').get();
+    var data = snapshot.data() as Map;
+    var eventsData = data['events'] as List<dynamic>;
+
+    eventsData.forEach((eventData) {
+      Meeting meet = Meeting.fromJson(eventData);
+      _events.add(meet);
+    });
+  }
 
   Future uploadTestData() async {
     final docEvent =
@@ -95,69 +85,28 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
     await docEvent.set(json);
   }
 
-  // void uploadTestData() {
-  //   databaseReference.collection("/CalendarCollection")
-  //     ..doc("1").set({
-  //       'Subject': "Mastering Flutter",
-  //       'StartTime': '03/22/2022 08:00:00',
-  //       'EndTime': '03/22/2022 09:00:00'
-  //     });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Meeting>>(
-        stream: getDataFromFireStore(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            events = snapshot.data!;
-
-            return Container(
-              child: Column(
-                children: [
-                  Text('ScheduleView ${widget.state.uId}'),
-                  if (widget.state.isDone)
-                    Text(widget.state.schedule.toString()),
-                  if (widget.state.isLoading) Text("Loading..."),
-                  if (widget.state.isError) Text("Error!"),
-                  IconButton(
-                      onPressed: () => uploadTestData(), icon: Icon(Icons.add)),
-                  Container(
-                    child: SfCalendar(
-                      view: CalendarView.week,
-                      dataSource: MeetingDataSource(events),
-                    ),
-                    width: MediaQuery.of(context).size.width * .70,
-                    height: MediaQuery.of(context).size.height * .80,
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return Container(
-                child: Column(children: [
-              Text('ScheduleView ${widget.state.uId}'),
-              if (widget.state.isDone) Text(widget.state.schedule.toString()),
-              if (widget.state.isLoading) Text("Loading..."),
-              if (widget.state.isError) Text("Error!"),
-              IconButton(
-                  onPressed: () => uploadTestData(), icon: Icon(Icons.add)),
-            ]));
-          }
-        });
-  }
-
-  void _initializeEventColor() {
-    _colorCollection.add(Colors.black);
-    _colorCollection.add(Colors.blue);
-    _colorCollection.add(Colors.red);
-    _colorCollection.add(Colors.orange);
-    _colorCollection.add(Colors.purple);
-    _colorCollection.add(Colors.green);
-    _colorCollection.add(Colors.grey);
-    _colorCollection.add(Colors.brown);
-    _colorCollection.add(Colors.yellow);
-    _colorCollection.add(Colors.white);
+    getDataFromFireStore().then((value) => null);
+    return Container(
+      child: Column(
+        children: [
+          Text('ScheduleView ${widget.state.uId}'),
+          if (widget.state.isDone) Text(widget.state.schedule.toString()),
+          if (widget.state.isLoading) Text("Loading..."),
+          if (widget.state.isError) Text("Error!"),
+          IconButton(onPressed: () => uploadTestData(), icon: Icon(Icons.add)),
+          Container(
+            child: SfCalendar(
+              view: CalendarView.week,
+              dataSource: MeetingDataSource(_events),
+            ),
+            width: MediaQuery.of(context).size.width * .70,
+            height: MediaQuery.of(context).size.height * .80,
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -168,56 +117,36 @@ class MeetingDataSource extends CalendarDataSource {
 
   List<Appointment> getAppointments(List<Meeting> list) {
     List<Appointment> meetings = <Appointment>[];
-    // final DateTime today = DateTime.now();
-    // final DateTime startTime =
-    //     DateTime(today.year, today.month, today.day, 9, 0, 0);
-    // final DateTime endTime = startTime.add(const Duration(hours: 2));
+    List<Color> colorCollection = <Color>[];
+    colorCollection.add(Colors.black);
+    colorCollection.add(Colors.blue);
+    colorCollection.add(Colors.red);
+    colorCollection.add(Colors.orange);
+    colorCollection.add(Colors.purple);
+    colorCollection.add(Colors.green);
+    colorCollection.add(Colors.grey);
+    colorCollection.add(Colors.brown);
+    colorCollection.add(Colors.yellow);
+    colorCollection.add(Colors.white);
 
-    // meetings.add(Appointment(
-    //     startTime: startTime,
-    //     endTime: endTime,
-    //     subject: "Conference",
-    //     color: Colors.blue));
-
-    for (int i = 0; i < list.length - 1; i++) {
+    for (int i = 0; i < list.length; i++) {
       final String name = list[i].eventName;
-      final DateTime startTime = list[i].from;
-      final DateTime endTime = list[i].to;
+      final DateTime today = DateTime.now();
+      final DateTime startTime =
+          DateTime(today.year, today.month, today.day, 9 + 3 * i, 0, 0);
+      final DateTime endTime = startTime.add(const Duration(hours: 2));
 
       meetings.add(Appointment(
           startTime: startTime,
           endTime: endTime,
           subject: name,
-          color: Colors.blue));
+          color: colorCollection[i],
+          recurrenceRule: 
+          );
     }
 
     return meetings;
   }
-
-  // @override
-  // DateTime getStartTime(int index) {
-  //   return appointments![index].from;
-  // }
-
-  // @override
-  // DateTime getEndTime(int index) {
-  //   return appointments![index].to;
-  // }
-
-  // @override
-  // bool isAllDay(int index) {
-  //   return appointments![index].isAllDay;
-  // }
-
-  // @override
-  // String getSubject(int index) {
-  //   return appointments![index].eventName;
-  // }
-
-  // @override
-  // Color getColor(int index) {
-  //   return appointments![index].background;
-  // }
 }
 
 class Meeting {
@@ -234,8 +163,8 @@ class Meeting {
       this.background,
       this.isAllDay});
 
-  static Meeting fromJson(Map<String, dynamic> json) => Meeting(
-      eventName: json['Subject'],
-      from: (json['StartTime'] as Timestamp).toDate(),
-      to: (json['EndTime'] as Timestamp).toDate());
+  factory Meeting.fromJson(Map<String, dynamic> json) {
+    return Meeting(
+        eventName: json['Subject'], from: DateTime.now(), to: DateTime.now());
+  }
 }
