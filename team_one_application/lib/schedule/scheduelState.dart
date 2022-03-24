@@ -1,11 +1,11 @@
 import 'package:team_one_application/schedule/schedule_state_enums.dart';
+import 'package:team_one_application/models/Event.dart';
 
 class ScheduleState {
   late final String _uId;
 
   AgentInfoLoadState _agentInfoLoadState;
-  // TODO: Replace with schedule object
-  List<String>? _schedule;
+  List<Event>? _schedule;
 
   ScheduleState(String uId)
       : _uId = uId,
@@ -19,7 +19,7 @@ class ScheduleState {
     _agentInfoLoadState = AgentInfoLoadState.error;
   }
 
-  void setLoaded(List<String>? loadedSchedule) {
+  void setLoaded(List<Event>? loadedSchedule) {
     _agentInfoLoadState = AgentInfoLoadState.done;
     _schedule = loadedSchedule;
   }

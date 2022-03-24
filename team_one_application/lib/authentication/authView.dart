@@ -76,25 +76,51 @@ class AuthVisualElement extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (loginState) {
       case ApplicationLoginStep.loggedOut:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: StyledButton(
-                onPressed: () {
-                  startLoginFlow();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Text(
-                    firstText,
-                    style: Theme.of(context).textTheme.headline3!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+            Image.asset(
+              'images/quickshare.png',
+              width: 500.0,
+              height: 500.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StyledButton(
+                    onPressed: () {
+                      startLoginFlow();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        firstText,
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StyledButton(
+                    onPressed: () {
+                      startLoginFlow();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Text(
+                        "Register",
+                        style: Theme.of(context).textTheme.headline4!.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         );

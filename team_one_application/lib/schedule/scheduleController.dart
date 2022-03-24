@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:team_one_application/models/Event.dart';
+import 'package:flutter/material.dart';
 
 class ScheduleController extends ChangeNotifier {
   ScheduleState scheduleState;
@@ -12,7 +16,7 @@ class ScheduleController extends ChangeNotifier {
   }
 
   void init() async {
-    fetchSchedule(_uId).then((value) {
+    getDataFromFireStore().then((value) {
       scheduleState.setLoaded(value);
     }).onError((error, stackTrace) {
       print("Error fetching schedule: $error \n with stacktrace: $stackTrace");
@@ -22,10 +26,37 @@ class ScheduleController extends ChangeNotifier {
     });
   }
 
-  // I would love if this was move to a db proxy file inside of this component file
-  Future<List<String>?> fetchSchedule(String uID) async {
-    final dummyData = [uID, "Event One", "Event Two", "Event Three"];
-    await Future.delayed(Duration(seconds: 2));
-    return dummyData;
+  Future<List<Event>> getDataFromFireStore() async {
+    List<Event> events = <Event>[];
+    FirebaseFirestore? _instance;
+    _instance = FirebaseFirestore.instance;
+
+    CollectionReference calendarCollection =
+        _instance.collection("CalendarCollection");
+
+    DocumentSnapshot snapshot = await calendarCollection.doc('1').get();
+    var data = snapshot.data() as Map;
+    var eventsData = data['events'] as List<dynamic>;
+
+    eventsData.forEach((eventData) {
+      Event meet = Event.fromJson(eventData);
+      events.add(meet);
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    return events;
+  }
+
+  //for future feature to add classes from app
+  Future uploadTestData() async {
+    final docEvent =
+        FirebaseFirestore.instance.collection('CalendarCollection').doc("1");
+
+    final json = {
+      'Subject': "Mastering Flutter",
+      'StartTime': '22 March 2022 at 08:00:00',
+      'EndTime': '22 March 2022 at 09:00:00'
+    };
+
+    await docEvent.set(json);
   }
 }

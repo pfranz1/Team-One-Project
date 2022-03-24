@@ -82,19 +82,52 @@ class _FriendsListState extends State<FriendsList> {
 
   @override
   Widget build(BuildContext context) {
+    int index = 0;
+    List<FriendElement> friendsList = <FriendElement>[];
+    if (widget.friends != null && widget.friends!.isNotEmpty)
+      for (final friend in widget.friends!
+          .asMap()
+          .entries) //As map is the easiest way to get index with a value
+        friendsList.add(FriendElement(
+          friendRef: friend.value,
+          callback: () => selectIndex(friend.key),
+          isSelected: currentIndex == friend.key,
+        ));
+
     return Container(
       decoration: BoxDecoration(border: Border.all(width: 2.0)),
+      height: MediaQuery.of(context).size.height * .80,
+      width: 150,
       child: Column(
         children: [
-          if (widget.friends != null && widget.friends!.isNotEmpty)
-            for (final friend in widget.friends!
-                .asMap()
-                .entries) //As map is the easiest way to get index with a value
-              FriendElement(
-                friendRef: friend.value,
-                callback: () => selectIndex(friend.key),
-                isSelected: currentIndex == friend.key,
-              ),
+          Text(
+            "Friends:",
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          //SizedBox adds space between Friends title and ListView
+          SizedBox(
+            height: 20,
+          ),
+          //List View needs container to know rendering boundaries
+          Container(
+            height: MediaQuery.of(context).size.height * .7,
+            width: 150,
+            child: ListView.separated(
+                //ScrollController needed since two list views (filter view
+                // and the calendar) will be on the screen
+                controller: ScrollController(),
+                itemCount: friendsList.length,
+                itemBuilder: (context, index) {
+                  return friendsList[index];
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(
+                    color: Colors.black,
+                  );
+                }),
+          ),
         ],
       ),
     );
@@ -115,13 +148,18 @@ class FriendElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: callback,
-        style: ElevatedButton.styleFrom(
-          primary: isSelected ? Colors.lightGreen : Colors.blue,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: ElevatedButton(
+          onPressed: callback,
+          style: ElevatedButton.styleFrom(
+            primary: isSelected ? Colors.grey : Colors.white,
+          ),
+          child: Text(friendRef.displayName ?? "No Name",
+              style: TextStyle(color: Colors.black),
+              textAlign: TextAlign.center),
         ),
-        child: Text(friendRef.displayName ?? "No Name"),
       ),
     );
   }
