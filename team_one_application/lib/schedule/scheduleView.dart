@@ -7,6 +7,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:team_one_application/models/Event.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key, required this.scheduleController})
@@ -40,6 +41,66 @@ class ScheduleVisualElement extends StatefulWidget {
 }
 
 class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
+  //details is the collection of appointments that return from the selected date
+  void calendarTapped(CalendarTapDetails details) {
+    if (details.targetElement == CalendarElement.appointment) {
+      final Appointment appointmentDetails = details.appointments![0];
+      String _subjectText = appointmentDetails.subject;
+      String _dateText =
+          DateFormat('MMMM dd, yyyy').format(details.date!).toString();
+      String _startTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.startTime).toString();
+      String _endTimeText =
+          DateFormat('hh:mm a').format(appointmentDetails.endTime).toString();
+      String _timeDetails = '$_startTimeText - $_endTimeText';
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Container(child: Text('$_subjectText')),
+              content: Container(
+                height: 80,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '$_dateText',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: const <Widget>[
+                        Text(''),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(_timeDetails,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 15)),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('close'))
+              ],
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +112,21 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
               child: const Text("Error!"),
             ),
           if (widget.state.isLoading)
-            Text("Loading..."), //add loading animation
+            Container(
+              width: MediaQuery.of(context).size.width * .70,
+              height: MediaQuery.of(context).size.height * .80,
+              child: const Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 10,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                  ),
+                ),
+              ),
+            ),
           if (widget.state.isDone)
             Container(
               child: SfCalendar(
@@ -66,6 +141,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
                 dataSource: MeetingDataSource(widget.state.schedule),
                 appointmentTextStyle:
                     const TextStyle(fontSize: 15, color: Colors.white),
+                onTap: calendarTapped,
               ),
               width: MediaQuery.of(context).size.width * .70,
               height: MediaQuery.of(context).size.height * .80,
@@ -102,12 +178,13 @@ class MeetingDataSource extends CalendarDataSource {
       String? eventRecurrence = list[i].daysOfWeek;
 
       appointments.add(Appointment(
-          startTime: eventStartTime,
-          endTime: eventEndTime,
-          subject: eventName,
-          color: colorCollection[i %
-              8], //prevents index value from going out-of-bounds of colorCollection
-          recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=[$eventRecurrence]'));
+        startTime: eventStartTime,
+        endTime: eventEndTime,
+        subject: eventName,
+        color: colorCollection[i %
+            8], //prevents index value from going out-of-bounds of colorCollection
+        recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=[$eventRecurrence]',
+      ));
     }
     return appointments;
   }

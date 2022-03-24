@@ -42,6 +42,7 @@ class ScheduleController extends ChangeNotifier {
       Event meet = Event.fromJson(eventData);
       events.add(meet);
     });
+    await Future.delayed(const Duration(seconds: 1));
     return events;
   }
 
