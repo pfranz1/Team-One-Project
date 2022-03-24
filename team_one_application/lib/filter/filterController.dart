@@ -33,20 +33,20 @@ class FilterController extends ChangeNotifier {
 
   Future<List<FriendRef>?> fetchFriendRefs() async {
     final dummyData = <FriendRef>[
-      FriendRef(displayName: "Mason Brick Jr.", uId: "USERID-1"),
-      FriendRef(displayName: "Joe Baseball", uId: "USERID-2"),
-      FriendRef(displayName: "Haymond Money", uId: "USERID-3"),
-      FriendRef(displayName: "Georgie Longs", uId: "USERID-4"),
-      FriendRef(displayName: "Steven Danger", uId: "USERID-5"),
-      FriendRef(displayName: "Elizabeth Smtih", uId: "USERID-6"),
-      FriendRef(displayName: "Elon Musk", uId: "USERID-7"),
-      FriendRef(displayName: "Jennifer Lopez", uId: "USERID-8"),
-      FriendRef(displayName: "Ariana Grande", uId: "USERID-9"),
-      FriendRef(displayName: "Sam L. Jackson", uId: "USERID-10"),
-      FriendRef(displayName: "The Rock", uId: "USERID-11"),
-      FriendRef(displayName: "Caesar", uId: "USERID-12"),
-      FriendRef(displayName: "Queen Elizabeth", uId: "USERID-13"),
-      FriendRef(displayName: "Drew Brees", uId: "USERID-14"),
+      FriendRef(name: "Mason Brick Jr.", documentID: "USERID-1"),
+      FriendRef(name: "Joe Baseball", documentID: "USERID-2"),
+      FriendRef(name: "Haymond Money", documentID: "USERID-3"),
+      FriendRef(name: "Georgie Longs", documentID: "USERID-4"),
+      FriendRef(name: "Steven Danger", documentID: "USERID-5"),
+      FriendRef(name: "Elizabeth Smtih", documentID: "USERID-6"),
+      FriendRef(name: "Elon Musk", documentID: "USERID-7"),
+      FriendRef(name: "Jennifer Lopez", documentID: "USERID-8"),
+      FriendRef(name: "Ariana Grande", documentID: "USERID-9"),
+      FriendRef(name: "Sam L. Jackson", documentID: "USERID-10"),
+      FriendRef(name: "The Rock", documentID: "USERID-11"),
+      FriendRef(name: "Caesar", documentID: "USERID-12"),
+      FriendRef(name: "Queen Elizabeth", documentID: "USERID-13"),
+      FriendRef(name: "Drew Brees", documentID: "USERID-14"),
     ];
     //Wait 2 seconds then return dummy data
     await Future.delayed(Duration(seconds: 2));

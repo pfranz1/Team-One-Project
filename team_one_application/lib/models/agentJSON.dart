@@ -1,4 +1,3 @@
-
 import 'package:team_one_application/models/Event.dart';
 import 'package:team_one_application/models/friend_ref.dart';
 
@@ -9,7 +8,7 @@ class Agent {
   final List<Event>? schedule;
   List<FriendRef>? friendList;
 
-	/*
+  /*
 	 * Agent constructor
 	 * -----------------
 	 * name - name of agent
@@ -25,15 +24,14 @@ class Agent {
       this.schedule,
       required this.uID});
 
+  Agent.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        type = json['type'],
+        friendList = json['friendList'],
+        schedule = json['schedule'],
+        uID = json['uID'];
 
-	Event.fromJson(Map<String, dynamic> json)
-	    : name = json['name'],
-	    type = json['type'],
-	    friendList = json['friendList'],
-	    schedule = json['schedule'],
-	    uID = json['uID'],
-
-	  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         'name': name,
         'type': type,
         'friendList': friendList,
@@ -61,7 +59,7 @@ class Student extends Agent {
       : super(
             name: name,
             type: type,
-            uID: uId,
+            uID: uID,
             friendList: friendList,
             schedule: schedule);
 
