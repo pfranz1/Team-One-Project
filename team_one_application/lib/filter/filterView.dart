@@ -34,6 +34,7 @@ class FilterVisualElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.25,
       child: Column(
         children: [
           if (filterState.isDone)
@@ -82,53 +83,25 @@ class _FriendsListState extends State<FriendsList> {
 
   @override
   Widget build(BuildContext context) {
-    int index = 0;
-    List<FriendElement> friendsList = <FriendElement>[];
-    if (widget.friends != null && widget.friends!.isNotEmpty)
-      for (final friend in widget.friends!
-          .asMap()
-          .entries) //As map is the easiest way to get index with a value
-        friendsList.add(FriendElement(
-          friendRef: friend.value,
-          callback: () => selectIndex(friend.key),
-          isSelected: currentIndex == friend.key,
-        ));
-
-    return Container(
-      decoration: BoxDecoration(border: Border.all(width: 2.0)),
-      height: MediaQuery.of(context).size.height * .80,
-      width: 150,
-      child: Column(
-        children: [
-          Text(
-            "Friends:",
-            style: TextStyle(
-              fontSize: 15,
-            ),
-          ),
-          //SizedBox adds space between Friends title and ListView
-          SizedBox(
-            height: 20,
-          ),
-          //List View needs container to know rendering boundaries
-          Container(
-            height: MediaQuery.of(context).size.height * .7,
-            width: 150,
-            child: ListView.separated(
-                //ScrollController needed since two list views (filter view
-                // and the calendar) will be on the screen
-                controller: ScrollController(),
-                itemCount: friendsList.length,
-                itemBuilder: (context, index) {
-                  return friendsList[index];
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(
-                    color: Colors.black,
-                  );
-                }),
-          ),
-        ],
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+            border: const Border(
+                right: BorderSide(color: Colors.black, width: 2.0)),
+            color: Colors.blueGrey[100]),
+        child: ListView(
+          children: [
+            if (widget.friends != null && widget.friends!.isNotEmpty)
+              for (final friend in widget.friends!
+                  .asMap()
+                  .entries) //As map is the easiest way to get index with a value
+                FriendElement(
+                  friendRef: friend.value,
+                  callback: () => selectIndex(friend.key),
+                  isSelected: currentIndex == friend.key,
+                ),
+          ],
+        ),
       ),
     );
   }
