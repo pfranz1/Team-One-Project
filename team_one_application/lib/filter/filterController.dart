@@ -1,11 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/filter/filterState.dart';
 import 'package:team_one_application/filter/filter_state_enums.dart';
 import 'package:team_one_application/models/friend_ref.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FilterController extends ChangeNotifier {
   String uuId;
   FilterState filterState;
+
+  FirebaseFirestore? instance_;
 
   final void Function(String) onAgentSelect;
 
@@ -32,7 +36,25 @@ class FilterController extends ChangeNotifier {
   }
 
   Future<List<FriendRef>?> fetchFriendRefs() async {
-    final dummyData = <FriendRef>[
+    instance_ = FirebaseFirestore.instance;
+
+    CollectionReference friendsData = instance_!
+        .collection("users")
+        .doc("Dg9ejfmec4YY2on76nTbJAROrLB3")
+        .collection("friends");
+    QuerySnapshot snapshot = await friendsData.get();
+    final List outputList = snapshot.docs.map((doc) => doc.data()).toList();
+    // as List<Map<String, dynamic>>;
+    final List<FriendRef> outputData = [];
+    for (Map<String, dynamic> element in outputList) {
+      outputData.add(
+          FriendRef(displayName: element['displayName'], uId: element['uId']));
+    }
+    return outputData;
+
+    // data.map((doc) => outputList.add(FriendRef(displayName:  uId: uId)));
+
+    /* dummyData = <FriendRef>[
       FriendRef(displayName: "Mason Brick Jr.", uId: "USERID-1"),
       FriendRef(displayName: "Joe Baseball", uId: "USERID-2"),
       FriendRef(displayName: "Haymond Money", uId: "USERID-3"),
@@ -50,6 +72,6 @@ class FilterController extends ChangeNotifier {
     ];
     //Wait 2 seconds then return dummy data
     await Future.delayed(Duration(seconds: 2));
-    return dummyData;
+    return dummyData;*/
   }
 }
