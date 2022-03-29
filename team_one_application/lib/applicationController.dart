@@ -39,7 +39,7 @@ class ApplicationController extends ChangeNotifier {
 
   void onLogin(String uId) {
     filterController =
-        FilterController(uuId: uId, onAgentSelect: onFilterSelect);
+        FilterController(uId: uId, onAgentSelect: onFilterSelect);
     socialController = SocialController(uId: uId);
     notifyListeners();
   }
