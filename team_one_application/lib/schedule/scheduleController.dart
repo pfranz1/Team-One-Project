@@ -34,7 +34,17 @@ class ScheduleController extends ChangeNotifier {
     CollectionReference eventCollection = _instance
         .collection("users")
         .doc("Dg9ejfmec4YY2on76nTbJAROrLB3")
-        .collection("events"); //eventually replace with _uID
+        .collection("events");
+
+    //Accessing db by uId instead of hard coded userID here
+    //Either: delete the top portion & uncomment below
+    //        replace hardcoded userID with _uId and delete below
+    /*
+    CollectionReference eventCollection = _instance
+        .collection("users")
+        .doc(_uId)
+        .collection("events");
+        */
 
     QuerySnapshot querySnapshot = await eventCollection.get();
     final eventObs = querySnapshot.docs
