@@ -31,14 +31,17 @@ class ScheduleController extends ChangeNotifier {
     FirebaseFirestore? _instance;
     _instance = FirebaseFirestore.instance;
 
-    CollectionReference calendarCollection =
-        _instance.collection("CalendarCollection");
+    CollectionReference eventCollection = _instance
+        .collection("users")
+        .doc("Dg9ejfmec4YY2on76nTbJAROrLB3")
+        .collection("events"); //eventually replace with _uID
 
-    DocumentSnapshot snapshot = await calendarCollection.doc('1').get();
-    var data = snapshot.data() as Map;
-    var eventsData = data['events'] as List<dynamic>;
+    QuerySnapshot querySnapshot = await eventCollection.get();
+    final eventObs = querySnapshot.docs
+        .map((doc) => doc.data() as Map<String, dynamic>)
+        .toList();
 
-    eventsData.forEach((eventData) {
+    eventObs.forEach((eventData) {
       Event meet = Event.fromJson(eventData);
       events.add(meet);
     });
