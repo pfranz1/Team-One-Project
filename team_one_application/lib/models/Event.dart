@@ -141,7 +141,7 @@ class ClubMeeting extends Event {
           endTime: endTime,
           daysOfWeek: daysOfWeek,
           type: "Club Meeting",
-        ) {}
+        );
 
   ClubMeeting.fromJson(Map<String, dynamic> json)
       : acronym = json['acronym'],
