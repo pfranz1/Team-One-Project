@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:team_one_application/filter/filterView.dart';
 import 'package:team_one_application/models/friend_ref.dart';
 import 'package:team_one_application/social/socialState.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class SocialController extends ChangeNotifier {
   String _uId;
   SocialState socialState;
+
+  FirebaseFirestore? instance_;
 
   SocialController({required uId})
       : _uId = uId,
@@ -23,15 +28,19 @@ class SocialController extends ChangeNotifier {
     });
   }
 
-  // I would love if this was move to a db proxy file inside of this component file
-  Future<List<FriendRef>?> fetchFriendsList(String uID) async {
-    final dummyData = <FriendRef>[
-      FriendRef(displayName: "Mason Brick Jr.", uId: "USERID-1"),
-      FriendRef(displayName: "Joe Baseball", uId: "USERID-2"),
-      FriendRef(displayName: "Haymond Money", uId: "USERID-3"),
-      FriendRef(displayName: "Georgie Longs", uId: "USERID-4"),
-    ];
-    await Future.delayed(Duration(seconds: 2));
-    return dummyData;
+  // Calls to database to get friends displayNames and uIds
+  Future<List<FriendRef>?> fetchFriendsList(String uId) async {
+    instance_ = FirebaseFirestore.instance;
+
+    CollectionReference friendsData =
+        instance_!.collection("users").doc(uId).collection("friends");
+    QuerySnapshot snapshot = await friendsData.get();
+    final List outputList = snapshot.docs.map((doc) => doc.data()).toList();
+    final List<FriendRef> outputData = [];
+    for (Map<String, dynamic> element in outputList) {
+      outputData.add(
+          FriendRef(displayName: element['displayName'], uId: element['uId']));
+    }
+    return outputData;
   }
 }
