@@ -31,10 +31,8 @@ class ScheduleController extends ChangeNotifier {
     FirebaseFirestore? _instance;
     _instance = FirebaseFirestore.instance;
 
-    CollectionReference eventCollection = _instance
-        .collection("users")
-        .doc("Dg9ejfmec4YY2on76nTbJAROrLB3")
-        .collection("events");
+    CollectionReference eventCollection =
+        _instance.collection("users").doc(_uId).collection("events");
 
     //Accessing db by uId instead of hard coded userID here
     //Either: delete the top portion & uncomment below
