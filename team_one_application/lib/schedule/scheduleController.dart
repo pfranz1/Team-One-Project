@@ -49,15 +49,17 @@ class ScheduleController extends ChangeNotifier {
 
   //for future feature to add classes from app
   Future uploadTestData() async {
-    final docEvent =
-        FirebaseFirestore.instance.collection('CalendarCollection').doc("1");
-
-    final json = {
-      'Subject': "Mastering Flutter",
-      'StartTime': '22 March 2022 at 08:00:00',
-      'EndTime': '22 March 2022 at 09:00:00'
-    };
-
-    await docEvent.set(json);
+    print("Uploading Test Data...");
+    String uId = "Dg9ejfmec4YY2on76nTbJARO";
+    final docEvent = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uId)
+        .collection("events");
+    final testEvent = Event(
+        name: "Test Event",
+        startTime: DateTime.now().subtract(Duration(hours: 2)),
+        endTime: DateTime.now(),
+        daysOfWeek: "THU");
+    docEvent.add(testEvent.toJson());
   }
 }

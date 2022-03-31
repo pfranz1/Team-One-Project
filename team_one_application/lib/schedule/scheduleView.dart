@@ -21,8 +21,16 @@ class ScheduleView extends StatelessWidget {
       value: scheduleController,
       child: Consumer<ScheduleController>(
           builder: (context, scheduleController, _) {
-        return ScheduleVisualElement(
-          state: scheduleController.scheduleState,
+        return Column(
+          children: [
+            ElevatedButton(
+                onPressed: () {},
+                // onPressed: () => scheduleController.uploadTestData(),
+                child: Text("Upload Data")),
+            ScheduleVisualElement(
+              state: scheduleController.scheduleState,
+            ),
+          ],
         );
       }),
     );

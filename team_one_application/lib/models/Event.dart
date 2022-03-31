@@ -1,3 +1,49 @@
+class EventIterator extends Iterator {
+  List<Map<String, dynamic>>? listOfUnserialized;
+  EventIterator(List<Map<String, dynamic>>? this.listOfUnserialized);
+
+  Event? _current;
+  int _currentIndex = -1;
+
+  Event deserializeUnknow(Map<String, dynamic> unknown) {
+    String unknownType = unknown['type'];
+    switch (unknownType) {
+      case "generic":
+        return Event.fromJson(unknown);
+      case "Lecture":
+        return Lecture.fromJson(unknown);
+      case "Club Meeting":
+        return ClubMeeting.fromJson(unknown);
+      default:
+        print("Deserializing and recived type of $unknownType \n");
+        print(unknown);
+        return Event.fromJson(unknown);
+    }
+  }
+
+  @override
+  Event? get current => _current;
+
+  @override
+  bool moveNext() {
+    if (listOfUnserialized == null ||
+        _currentIndex == listOfUnserialized!.length - 1) return false;
+    _currentIndex++;
+    _current = deserializeUnknow(listOfUnserialized![_currentIndex]);
+    return true;
+  }
+
+  bool hasNext() {
+    return (listOfUnserialized != null &&
+        _currentIndex < listOfUnserialized!.length - 1);
+  }
+
+  Event next() {
+    moveNext();
+    return _current!;
+  }
+}
+
 //Event Superclass
 
 class Event {
@@ -26,11 +72,11 @@ class Event {
   });
 
   Event.fromJson(Map<String, dynamic> json)
-      : name = json['Name'],
-        startTime = json['StartTime'].toDate(),
-        endTime = json['EndTime'].toDate(),
-        type = json['Type'],
-        daysOfWeek = json['DaysOfWeek'];
+      : name = json['name'],
+        startTime = json['startTime'].toDate(),
+        endTime = json['endTime'].toDate(),
+        type = json['type'],
+        daysOfWeek = json['daysOfWeek'];
 
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -150,5 +196,14 @@ class ClubMeeting extends Event {
   Map<String, dynamic> toJson() => {'acronym': acronym}..addAll(super.toJson());
 }
 
-// void main() {
-// }
+void main() {
+  final tEvent = Event(
+      name: "Test",
+      startTime: DateTime.now(),
+      endTime: DateTime.now(),
+      daysOfWeek: "m,t,w,tu");
+  List<Map<String, dynamic>> testUnknown = [tEvent.toJson()];
+  final myItterator = EventIterator(testUnknown);
+  final pEvent = myItterator.next();
+  print(pEvent == tEvent);
+}

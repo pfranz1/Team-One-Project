@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:team_one_application/NavigatorSingletonManager.dart';
 import 'package:team_one_application/services/navigation_service.dart';
 import 'package:team_one_application/services/route_generator.dart';
 import 'applicationController.dart';
@@ -9,12 +10,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider<NavigationService>(
-          create: (_) => NavigationService(),
-        ),
         ChangeNotifierProvider(
           create: (context) => ApplicationController(
-            navigationService: context.read<NavigationService>(),
+            navigationService: (NavigatorSingletonManager.getInstance()),
           ),
         ),
       ],
@@ -36,7 +34,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: '/',
-      navigatorKey: context.read<NavigationService>().navigatorKey,
+      navigatorKey: NavigatorSingletonManager.getInstance().navigatorKey,
     );
   }
 }
