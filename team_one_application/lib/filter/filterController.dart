@@ -44,6 +44,7 @@ class FilterController extends ChangeNotifier {
     final List outputList = snapshot.docs.map((doc) => doc.data()).toList();
     // as List<Map<String, dynamic>>;
     final List<FriendRef> outputData = [];
+    outputData.add(FriendRef(displayName: "My Schedule", uId: uId));
     for (Map<String, dynamic> element in outputList) {
       outputData.add(
           FriendRef(displayName: element['displayName'], uId: element['uId']));
