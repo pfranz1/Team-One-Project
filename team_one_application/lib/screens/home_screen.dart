@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.blue,
-            title: Image.asset('images/QuickShare-logos_white.png'),
+            title: Text("QuickShare"),
             key: const ValueKey('appBar'),
             actions: [
               // Sign-Out Button
