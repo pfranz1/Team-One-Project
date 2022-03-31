@@ -1,28 +1,25 @@
 class FriendRef {
-  late String name;
-  late String documentID;
+  late String displayName;
+  late String uId;
 
-  FriendRef({required this.name, required this.documentID}){}
+  FriendRef({required this.displayName, required this.uId}) {}
 
   bool compareTo(FriendRef friend) {
-    return (documentID.compareTo(friend.documentID) == 0);
+    return (uId.compareTo(friend.uId) == 0);
   }
 
   String returnName() {
-    return name;
+    return displayName;
   }
-  
+
   String returnID() {
-    return documentID;
+    return uId;
   }
 
-  FriendRef.fromJson(Map<String, dynamic> json){
-    name = json['name'];
-    documentID = json['documentID'];
+  FriendRef.fromJson(Map<String, dynamic> json) {
+    displayName = json['name'];
+    uId = json['documentID'];
   }
 
-  Map<String, dynamic> toJson() => {
-    'name' : name,
-    'documentID' : documentID
-  };
+  Map<String, dynamic> toJson() => {'displayName': displayName, 'uId': uId};
 }

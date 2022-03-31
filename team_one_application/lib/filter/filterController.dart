@@ -1,15 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:team_one_application/filter/filterState.dart';
 import 'package:team_one_application/filter/filter_state_enums.dart';
 import 'package:team_one_application/models/friend_ref.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FilterController extends ChangeNotifier {
-  String uuId;
+  String uId;
   FilterState filterState;
+
+  FirebaseFirestore? instance_;
 
   final void Function(String) onAgentSelect;
 
-  FilterController({required this.uuId, required this.onAgentSelect})
+  FilterController({required this.uId, required this.onAgentSelect})
       : filterState = FilterState() {
     init();
   }
@@ -18,7 +22,7 @@ class FilterController extends ChangeNotifier {
     // FilterState at this time is loading (not in error) and has a null for its list of friendRefs
 
     //Fetch from db
-    fetchFriendRefs().then((friendRefs) {
+    fetchFriendRefs(uId).then((friendRefs) {
       filterState.setFriendRefs(friendRefs);
     }).onError((error, stackTrace) {
       filterState.failedFriendRefs();
@@ -31,25 +35,20 @@ class FilterController extends ChangeNotifier {
     onAgentSelect(uId);
   }
 
-  Future<List<FriendRef>?> fetchFriendRefs() async {
-    final dummyData = <FriendRef>[
-      FriendRef(name: "Mason Brick Jr.", documentID: "USERID-1"),
-      FriendRef(name: "Joe Baseball", documentID: "USERID-2"),
-      FriendRef(name: "Haymond Money", documentID: "USERID-3"),
-      FriendRef(name: "Georgie Longs", documentID: "USERID-4"),
-      FriendRef(name: "Steven Danger", documentID: "USERID-5"),
-      FriendRef(name: "Elizabeth Smtih", documentID: "USERID-6"),
-      FriendRef(name: "Elon Musk", documentID: "USERID-7"),
-      FriendRef(name: "Jennifer Lopez", documentID: "USERID-8"),
-      FriendRef(name: "Ariana Grande", documentID: "USERID-9"),
-      FriendRef(name: "Sam L. Jackson", documentID: "USERID-10"),
-      FriendRef(name: "The Rock", documentID: "USERID-11"),
-      FriendRef(name: "Caesar", documentID: "USERID-12"),
-      FriendRef(name: "Queen Elizabeth", documentID: "USERID-13"),
-      FriendRef(name: "Drew Brees", documentID: "USERID-14"),
-    ];
-    //Wait 2 seconds then return dummy data
-    await Future.delayed(Duration(seconds: 2));
-    return dummyData;
+  Future<List<FriendRef>?> fetchFriendRefs(String uId) async {
+    instance_ = FirebaseFirestore.instance;
+
+    CollectionReference friendsData =
+        instance_!.collection("users").doc(uId).collection("friends");
+    QuerySnapshot snapshot = await friendsData.get();
+    final List outputList = snapshot.docs.map((doc) => doc.data()).toList();
+    // as List<Map<String, dynamic>>;
+    final List<FriendRef> outputData = [];
+    outputData.add(FriendRef(displayName: "My Schedule", uId: uId));
+    for (Map<String, dynamic> element in outputList) {
+      outputData.add(
+          FriendRef(displayName: element['displayName'], uId: element['uId']));
+    }
+    return outputData;
   }
 }

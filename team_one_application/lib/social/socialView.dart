@@ -91,7 +91,7 @@ class FriendListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(info.name),
+      title: Text(info.displayName),
     );
   }
 }
