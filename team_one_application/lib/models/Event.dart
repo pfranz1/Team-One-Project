@@ -72,11 +72,11 @@ class Event {
   });
 
   Event.fromJson(Map<String, dynamic> json)
-      : name = json['Name'],
-        startTime = json['StartTime'].toDate(),
-        endTime = json['EndTime'].toDate(),
-        type = json['Type'],
-        daysOfWeek = json['DaysOfWeek'];
+      : name = json['name'],
+        startTime = json['startTime'].toDate(),
+        endTime = json['endTime'].toDate(),
+        type = json['type'],
+        daysOfWeek = json['daysOfWeek'];
 
   Map<String, dynamic> toJson() => {
         'name': name,
