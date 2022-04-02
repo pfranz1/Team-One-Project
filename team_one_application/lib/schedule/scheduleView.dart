@@ -28,7 +28,10 @@ class ScheduleView extends StatelessWidget {
                   scheduleController.uploadTestData();
                 },
                 // onPressed: () => scheduleController.uploadTestData(),
-                child: Text("Upload Data")),
+                child: Text("Upload Events")),
+            ElevatedButton(
+                onPressed: () => scheduleController.uploadFriendData(),
+                child: Text("Upload Friends")),
             ScheduleVisualElement(
               state: scheduleController.scheduleState,
             ),

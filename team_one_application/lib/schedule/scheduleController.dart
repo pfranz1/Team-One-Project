@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:team_one_application/models/friend_ref.dart';
 import 'package:team_one_application/schedule/scheduelState.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -70,5 +71,26 @@ class ScheduleController extends ChangeNotifier {
     }
 
     print("Done uploading test data");
+  }
+
+  Future uploadFriendData() async {
+    print("Uploading friend data...");
+    final collectionRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(_uId)
+        .collection("friends");
+
+    List<FriendRef> friends = [
+      FriendRef(
+          displayName: "Patti Aymond", uId: "1f6mqBJa05Sle83n4qXRWXpEv4F3")
+    ];
+    for (FriendRef friend in friends) {
+      final json = friend.toJson();
+      await collectionRef
+          .add(json)
+          .then((value) => print("done adding $value"));
+    }
+
+    print("Done uploading friend data");
   }
 }
