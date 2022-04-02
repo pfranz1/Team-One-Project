@@ -37,11 +37,11 @@ class ScheduleController extends ChangeNotifier {
 
     QuerySnapshot querySnapshot = await eventCollection.get();
 
-    final eventObs = querySnapshot.docs
+    final docMaps = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
 
-    final eventIterator = EventIterator(eventObs);
+    final eventIterator = EventIterator(docMaps);
 
     while (eventIterator.moveNext()) {
       events.add(eventIterator.current!);
