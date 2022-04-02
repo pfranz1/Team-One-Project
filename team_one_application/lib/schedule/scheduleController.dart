@@ -49,17 +49,25 @@ class ScheduleController extends ChangeNotifier {
 
   //for future feature to add classes from app
   Future uploadTestData() async {
-    print("Uploading Test Data...");
-    String uId = "Dg9ejfmec4YY2on76nTbJARO";
-    final docEvent = FirebaseFirestore.instance
+    print("Uploading test data...");
+    final collectionRef = FirebaseFirestore.instance
         .collection('users')
-        .doc(uId)
+        .doc(_uId)
         .collection("events");
-    final testEvent = Event(
-        name: "Test Event",
-        startTime: DateTime.now().subtract(Duration(hours: 2)),
-        endTime: DateTime.now(),
-        daysOfWeek: "THU");
-    docEvent.add(testEvent.toJson());
+
+    List<Event> events = [
+      Event(
+          name: "Test Event2",
+          startTime: DateTime.now().subtract(Duration(hours: 2)),
+          endTime: DateTime.now(),
+          daysOfWeek: "SAT"),
+    ];
+    for (Event event in events) {
+      final json = event.toJson();
+      await collectionRef
+          .add(json)
+          .then((value) => print("done adding $value"));
+    }
+    print("Done uploading test data");
   }
 }
