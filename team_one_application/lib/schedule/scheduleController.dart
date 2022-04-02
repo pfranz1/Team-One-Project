@@ -30,22 +30,29 @@ class ScheduleController extends ChangeNotifier {
   Future<List<Event>> getDataFromFireStore() async {
     List<Event> events = <Event>[];
 
+    // Go to the event collection in user
     CollectionReference eventCollection = FirebaseFirestore.instance
         .collection("users")
         .doc(_uId)
         .collection("events");
 
+    // Get every document there
     QuerySnapshot querySnapshot = await eventCollection.get();
 
+    // Covert each doc to a map and store in a list
     final docMaps = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
 
+    // Pass list of maps to itterator to delegate deserialization
     final eventIterator = EventIterator(docMaps);
 
+    // Utilize iterator to get event objects
     while (eventIterator.moveNext()) {
       events.add(eventIterator.current!);
     }
+
+    // Return
     return events;
   }
 
