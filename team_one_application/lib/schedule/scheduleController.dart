@@ -11,7 +11,7 @@ class ScheduleController extends ChangeNotifier {
 
   ScheduleController({required String uId})
       : scheduleState = ScheduleState(uId),
-        _uId = uId {
+        _uId = uId.trim() {
     init();
   }
 
@@ -68,6 +68,7 @@ class ScheduleController extends ChangeNotifier {
           .add(json)
           .then((value) => print("done adding $value"));
     }
+
     print("Done uploading test data");
   }
 }
