@@ -40,10 +40,11 @@ class ScheduleController extends ChangeNotifier {
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
 
-    eventObs.forEach((eventData) {
-      Event meet = Event.fromJson(eventData);
-      events.add(meet);
-    });
+    final eventIterator = EventIterator(eventObs);
+
+    while (eventIterator.moveNext()) {
+      events.add(eventIterator.current!);
+    }
     return events;
   }
 

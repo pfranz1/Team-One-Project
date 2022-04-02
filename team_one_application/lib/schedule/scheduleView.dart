@@ -186,6 +186,7 @@ class MeetingDataSource extends CalendarDataSource {
       DateTime eventStartTime = list[i].startTime;
       DateTime eventEndTime = list[i].endTime;
       String? eventRecurrence = list[i].daysOfWeek;
+      print(list[i].type);
 
       appointments.add(Appointment(
         startTime: eventStartTime,
