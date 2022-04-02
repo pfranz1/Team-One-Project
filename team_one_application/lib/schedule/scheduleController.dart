@@ -56,7 +56,6 @@ class ScheduleController extends ChangeNotifier {
     return events;
   }
 
-  //for future feature to add classes from app
   Future uploadEventData() async {
     print("Uploading test data...");
     final collectionRef = FirebaseFirestore.instance
