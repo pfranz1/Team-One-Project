@@ -177,13 +177,13 @@ class ClubMeeting extends Event {
    * -----------------------------------
    * acronym-acronym of the club 
    */
-  ClubMeeting(
-    String name,
-    DateTime startTime,
-    DateTime endTime,
-    String daysOfWeek,
+  ClubMeeting({
+    required String name,
+    required DateTime startTime,
+    required DateTime endTime,
+    required String daysOfWeek,
     this.acronym,
-  ) : super(
+  }) : super(
           name: name,
           startTime: startTime,
           endTime: endTime,
