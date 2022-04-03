@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:team_one_application/applicationController.dart';
+import 'package:team_one_application/services/navigation_service.dart';
 import 'package:team_one_application/social/socialView.dart';
+import 'package:team_one_application/widgets/sharedDrawer.dart';
 
 class SocialScreen extends StatelessWidget {
   const SocialScreen({Key? key}) : super(key: key);
@@ -23,45 +25,7 @@ class SocialScreen extends StatelessWidget {
                   child: const Text('Log Out'))
             ],
           ),
-          //TODO: Have common drawer
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  //header of drawer
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: Text(
-                    'Hello, <USERNAME>',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontSize: 24,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  //menu item of Drawer
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('Timeline'),
-                  onTap: () => appController.navigationService
-                      .replaceCurrent('/timeline'),
-                ),
-                ListTile(
-                  leading: Icon(Icons.account_circle),
-                  title: Text('Social'),
-                  onTap: () =>
-                      appController.navigationService.replaceCurrent('/social'),
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Account Settings'),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
+          drawer: SharedDrawer(),
           body: Center(
             child: SocialView(socialController: appController.socialController),
           ),
