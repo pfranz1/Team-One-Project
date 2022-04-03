@@ -16,8 +16,8 @@ class EventIterator extends Iterator<Event?> {
       case "Club Meeting":
         return ClubMeeting.fromJson(unknown);
       default:
-        print("Deserializing and recived type of $unknownType \n");
-        print(unknown);
+        // print("Deserializing and recived type of $unknownType \n");
+        // print(unknown);
         return Event.fromJson(unknown);
     }
   }
