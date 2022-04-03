@@ -39,7 +39,7 @@ class ScheduleController extends ChangeNotifier {
     // Get every document there
     QuerySnapshot querySnapshot = await eventCollection.get();
 
-    // Covert each doc to a map and store in a list
+    // Convert each doc to a map and store in a list
     final docMaps = querySnapshot.docs
         .map((doc) => doc.data() as Map<String, dynamic>)
         .toList();
@@ -51,6 +51,10 @@ class ScheduleController extends ChangeNotifier {
     while (eventIterator.moveNext()) {
       events.add(eventIterator.current!);
     }
+    // Printing for debug
+    // events.forEach((element) {
+    //  print(element.toJson());
+    // });
 
     // Return
     return events;
@@ -64,11 +68,13 @@ class ScheduleController extends ChangeNotifier {
         .collection("events");
 
     List<Event> events = [
-      Event(
-          name: "Test Event2",
-          startTime: DateTime.now().subtract(Duration(hours: 2)),
-          endTime: DateTime.now(),
-          daysOfWeek: "SAT"),
+      ClubMeeting(
+        name: "Club meeting",
+        startTime: DateTime.now().subtract(Duration(hours: 2)),
+        endTime: DateTime.now(),
+        daysOfWeek: "SUN",
+        acronym: "SASE",
+      ),
     ];
     for (Event event in events) {
       final json = event.toJson();
