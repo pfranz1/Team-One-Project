@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:team_one_application/models/Event.dart';
 import 'package:intl/intl.dart';
 
+bool DEBUG = true;
+
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key, required this.scheduleController})
       : super(key: key);
@@ -23,12 +25,15 @@ class ScheduleView extends StatelessWidget {
           builder: (context, scheduleController, _) {
         return Column(
           children: [
-            ElevatedButton(
-                onPressed: () => scheduleController.uploadEventData(),
-                child: Text("Upload Events")),
-            ElevatedButton(
-                onPressed: () => scheduleController.uploadFriendData(),
-                child: Text("Upload Friends")),
+            if (DEBUG) ...[
+              Text('ScheduleView ${scheduleController.scheduleState.uId}'),
+              ElevatedButton(
+                  onPressed: () => scheduleController.uploadEventData(),
+                  child: Text("Upload Events")),
+              ElevatedButton(
+                  onPressed: () => scheduleController.uploadFriendData(),
+                  child: Text("Upload Friends")),
+            ],
             ScheduleVisualElement(
               state: scheduleController.scheduleState,
             ),
@@ -116,7 +121,6 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
     return Container(
       child: Column(
         children: [
-          Text('ScheduleView ${widget.state.uId}'),
           if (widget.state.isError)
             Container(
               child: const Text("Error!"),
