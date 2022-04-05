@@ -60,14 +60,19 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
   void calendarTapped(CalendarTapDetails details) {
     if (details.targetElement == CalendarElement.appointment) {
       final Appointment appointmentDetails = details.appointments![0];
-      String _subjectText = appointmentDetails.subject;
+      Event _eventFromAppointment = appointmentDetails.id as Event;
+
+      String _nameText = _eventFromAppointment.name;
       String _dateText =
           DateFormat('MMMM dd, yyyy').format(details.date!).toString();
-      String _startTimeText =
-          DateFormat('hh:mm a').format(appointmentDetails.startTime).toString();
-      String _endTimeText =
-          DateFormat('hh:mm a').format(appointmentDetails.endTime).toString();
+      String _startTimeText = DateFormat('hh:mm a')
+          .format(_eventFromAppointment.startTime)
+          .toString();
+      String _endTimeText = DateFormat('hh:mm a')
+          .format(_eventFromAppointment.endTime)
+          .toString();
       String _timeDetails = '$_startTimeText - $_endTimeText';
+      String? location = _eventFromAppointment.location;
 
       showDialog(
           barrierColor: Colors.white10,
@@ -78,25 +83,36 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
                 top: MediaQuery.of(context).size.height * .75,
                 left: MediaQuery.of(context).size.width * .20,
               ),
-              title: Container(child: Text('$_subjectText')),
+              title: Container(child: Text('$_nameText')),
               alignment: Alignment.bottomCenter,
-              content: Row(
-                children: <Widget>[
-                  Text(
-                    '$_dateText  ($_timeDetails)',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (location != null)
+                    Text(
+                      'at $location',
+                      style: const TextStyle(fontSize: 16),
                     ),
+                  Row(
+                    children: [
+                      Text(
+                        '$_dateText  ($_timeDetails)',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Close'))
+                    ],
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Close'))
                 ],
               ),
             );
@@ -178,8 +194,7 @@ class MeetingDataSource extends CalendarDataSource {
       DateTime eventStartTime = list[i].startTime;
       DateTime eventEndTime = list[i].endTime;
       String? eventRecurrence = list[i].daysOfWeek;
-      String? location;
-      String? professor;
+      String? eventType = list[i].type;
 
       appointments.add(Appointment(
         startTime: eventStartTime,
@@ -188,6 +203,8 @@ class MeetingDataSource extends CalendarDataSource {
         color: colorCollection[i %
             8], //prevents index value from going out-of-bounds of colorCollection
         recurrenceRule: 'FREQ=WEEKLY;INTERVAL=1;BYDAY=[$eventRecurrence]',
+        id: list[i],
+        notes: eventType,
       ));
     }
     return appointments;

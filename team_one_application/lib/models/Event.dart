@@ -54,6 +54,7 @@ class Event {
   DateTime startTime, endTime;
   String? type;
   String? daysOfWeek;
+  String? location;
 
   /*
    * Event Class Constructor
@@ -70,6 +71,7 @@ class Event {
     required this.startTime,
     required this.endTime,
     this.daysOfWeek,
+    this.location,
     this.type = "generic",
   });
 
@@ -78,14 +80,16 @@ class Event {
         startTime = json['startTime'].toDate(),
         endTime = json['endTime'].toDate(),
         type = json['type'],
-        daysOfWeek = json['daysOfWeek'];
+        daysOfWeek = json['daysOfWeek'],
+        location = json['location'];
 
   Map<String, dynamic> toJson() => {
         'name': name,
         'startTime': startTime,
         'endTime': endTime,
         'type': type,
-        'daysOfWeek': daysOfWeek
+        'daysOfWeek': daysOfWeek,
+        'location': location
       };
 }
 
