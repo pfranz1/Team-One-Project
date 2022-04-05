@@ -70,47 +70,35 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
       String _timeDetails = '$_startTimeText - $_endTimeText';
 
       showDialog(
+          barrierColor: Colors.white10,
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Container(child: Text('$_subjectText')),
-              content: Container(
-                height: 80,
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          '$_dateText',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: const <Widget>[
-                        Text(''),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(_timeDetails,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 15)),
-                      ],
-                    )
-                  ],
-                ),
+              insetPadding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * .75,
+                left: MediaQuery.of(context).size.width * .20,
               ),
-              actions: <Widget>[
-                TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('close'))
-              ],
+              title: Container(child: Text('$_subjectText')),
+              alignment: Alignment.bottomCenter,
+              content: Row(
+                children: <Widget>[
+                  Text(
+                    '$_dateText  ($_timeDetails)',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Close'))
+                ],
+              ),
             );
           });
     }
@@ -190,6 +178,7 @@ class MeetingDataSource extends CalendarDataSource {
       DateTime eventStartTime = list[i].startTime;
       DateTime eventEndTime = list[i].endTime;
       String? eventRecurrence = list[i].daysOfWeek;
+      String? eventType = list[i].type;
 
       appointments.add(Appointment(
         startTime: eventStartTime,
