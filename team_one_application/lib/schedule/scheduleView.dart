@@ -72,7 +72,8 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           .format(_eventFromAppointment.endTime)
           .toString();
       String _timeDetails = '$_startTimeText - $_endTimeText';
-      String? location = _eventFromAppointment.location;
+      String? _location = _eventFromAppointment.location;
+      String? _type = _eventFromAppointment.type;
 
       showDialog(
           barrierColor: Colors.white10,
@@ -80,7 +81,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           builder: (BuildContext context) {
             return AlertDialog(
               insetPadding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * .75,
+                top: MediaQuery.of(context).size.height * .80,
                 left: MediaQuery.of(context).size.width * .20,
               ),
               title: Container(child: Text('$_nameText')),
@@ -89,9 +90,9 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  if (location != null)
+                  if (_location != null)
                     Text(
-                      'at $location',
+                      'at $_location',
                       style: const TextStyle(fontSize: 16),
                     ),
                   Row(
