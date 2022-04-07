@@ -13,6 +13,8 @@ class FilterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //everytime filterController notifies listeners, ChangeNotifierProvider
+    //reruns FilterVisualElement to update view
     return ChangeNotifierProvider.value(
       value: filterController,
       child:

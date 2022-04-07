@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:team_one_application/models/Event.dart';
 import 'package:intl/intl.dart';
 
-bool DEBUG = true;
+bool DEBUG = false;
 
 class ScheduleView extends StatelessWidget {
   const ScheduleView({Key? key, required this.scheduleController})
