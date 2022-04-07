@@ -191,7 +191,7 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
               'at $_location',
               style: const TextStyle(fontSize: 16),
             ),
-          Text('w/ $_professor'),
+          Text('with $_professor'),
           Row(
             children: [
               Text(
