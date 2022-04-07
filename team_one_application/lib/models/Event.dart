@@ -1,3 +1,4 @@
+//Event Iterator
 class EventIterator extends Iterator<Event?> {
   List<Map<String, dynamic>>? listOfUnserialized;
   EventIterator(List<Map<String, dynamic>>? this.listOfUnserialized);
@@ -5,7 +6,7 @@ class EventIterator extends Iterator<Event?> {
   Event? _current;
   int _currentIndex = -1;
 
-  Event deserializeUnknow(Map<String, dynamic> unknown) {
+  Event deserializeUnknown(Map<String, dynamic> unknown) {
     String? unknownType = unknown['type'];
     print(unknownType);
     switch (unknownType) {
@@ -33,7 +34,7 @@ class EventIterator extends Iterator<Event?> {
         _currentIndex == listOfUnserialized!.length - 1) return false;
 
     _currentIndex++;
-    _current = deserializeUnknow(listOfUnserialized![_currentIndex]);
+    _current = deserializeUnknown(listOfUnserialized![_currentIndex]);
     return true;
   }
 
@@ -49,7 +50,6 @@ class EventIterator extends Iterator<Event?> {
 }
 
 //Event Superclass
-
 class Event {
   //Instance variables
   String name;
