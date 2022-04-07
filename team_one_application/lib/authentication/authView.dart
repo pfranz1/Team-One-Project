@@ -74,6 +74,7 @@ class AuthVisualElement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //uses ApplicationLoginStep enumeration instead of having to pass controller
     switch (loginState) {
       case ApplicationLoginStep.loggedOut:
         return Column(
