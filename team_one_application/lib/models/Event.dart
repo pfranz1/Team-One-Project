@@ -15,6 +15,8 @@ class EventIterator extends Iterator<Event?> {
         return Lecture.fromJson(unknown);
       case "Club Meeting":
         return ClubMeeting.fromJson(unknown);
+      case "Office Hour":
+        return OfficeHour.fromJson(unknown);
       default:
         // print("Deserializing and recived type of $unknownType \n");
         // print(unknown);
@@ -95,7 +97,7 @@ class Event {
 
 //Lecture Class
 class Lecture extends Event {
-  bool? isOnline;
+  bool isOnline;
   bool? isInPerson;
   bool? isHybrid;
   String professor;
@@ -114,7 +116,7 @@ class Lecture extends Event {
       required DateTime startTime,
       required DateTime endTime,
       required String daysOfWeek,
-      this.isOnline,
+      required this.isOnline,
       this.isInPerson,
       this.isHybrid,
       required this.professor})
@@ -144,6 +146,7 @@ class Lecture extends Event {
 //OfficeHour Class
 class OfficeHour extends Event {
   bool isOnline;
+  String professor;
 
   /*
    * OfficeHour Class Constructor
@@ -156,6 +159,7 @@ class OfficeHour extends Event {
     required DateTime endTime,
     required String daysOfWeek,
     required this.isOnline,
+    required this.professor,
   }) : super(
           name: name,
           startTime: startTime,
@@ -166,10 +170,11 @@ class OfficeHour extends Event {
 
   OfficeHour.fromJson(Map<String, dynamic> json)
       : isOnline = json['isOnline'],
+        professor = json['professor'],
         super.fromJson(json);
 
   Map<String, dynamic> toJson() =>
-      {'isOnline': isOnline}..addAll(super.toJson());
+      {'isOnline': isOnline, 'professor': professor}..addAll(super.toJson());
 }
 
 //ClubMeeting Class

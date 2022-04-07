@@ -79,46 +79,233 @@ class _ScheduleVisualElementState extends State<ScheduleVisualElement> {
           barrierColor: Colors.white10,
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
-              insetPadding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * .80,
-                left: MediaQuery.of(context).size.width * .20,
-              ),
-              title: Container(child: Text('$_nameText')),
-              alignment: Alignment.bottomCenter,
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  if (_location != null)
-                    Text(
-                      'at $_location',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                  Row(
-                    children: [
-                      Text(
-                        '$_dateText  ($_timeDetails)',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('Close'))
-                    ],
-                  ),
-                ],
-              ),
-            );
+            switch (_type) {
+              case "Lecture":
+                {
+                  Lecture _lectureFromAppointment =
+                      appointmentDetails.id as Lecture;
+                  return lectureEventPopup(
+                      _nameText,
+                      _location,
+                      _timeDetails,
+                      _dateText,
+                      _lectureFromAppointment.isOnline,
+                      _lectureFromAppointment.professor);
+                }
+
+              case "Office Hour":
+                {
+                  OfficeHour _officeFromAppointment =
+                      appointmentDetails.id as OfficeHour;
+                  return officeHoursEventPopup(
+                      _nameText,
+                      _location,
+                      _timeDetails,
+                      _dateText,
+                      _officeFromAppointment.isOnline,
+                      _officeFromAppointment.professor);
+                }
+
+              case "Club Meeting":
+                {
+                  ClubMeeting _clubfromAppointment =
+                      appointmentDetails.id as ClubMeeting;
+                  return clubEventPopup(_nameText, _location, _timeDetails,
+                      _dateText, _clubfromAppointment.acronym);
+                }
+
+              default:
+                {
+                  return genericEventPopup(
+                      _nameText, _location, _timeDetails, _dateText);
+                }
+            }
           });
     }
+  }
+
+  Widget genericEventPopup(String _nameText, String? _location,
+      String _timeDetails, String _dateText) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * .80,
+        left: MediaQuery.of(context).size.width * .20,
+      ),
+      title: Container(child: Text('$_nameText')),
+      alignment: Alignment.bottomCenter,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (_location != null)
+            Text(
+              'at $_location',
+              style: const TextStyle(fontSize: 16),
+            ),
+          Row(
+            children: [
+              Text(
+                '$_dateText  ($_timeDetails)',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget lectureEventPopup(
+      String _nameText,
+      String? _location,
+      String _timeDetails,
+      String _dateText,
+      bool _isOnline,
+      String _professor) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * .77,
+        left: MediaQuery.of(context).size.width * .20,
+      ),
+      title: Container(
+          child:
+              (_isOnline) ? Text('$_nameText (Online)') : Text('$_nameText')),
+      alignment: Alignment.bottomCenter,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (_location != null)
+            Text(
+              'at $_location',
+              style: const TextStyle(fontSize: 16),
+            ),
+          Text('w/ $_professor'),
+          Row(
+            children: [
+              Text(
+                '$_dateText  ($_timeDetails)',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget officeHoursEventPopup(
+      String _nameText,
+      String? _location,
+      String _timeDetails,
+      String _dateText,
+      bool _isOnline,
+      String _professor) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * .80,
+        left: MediaQuery.of(context).size.width * .20,
+      ),
+      title: Container(
+          child:
+              (_isOnline) ? Text('$_nameText (Online)') : Text('$_nameText')),
+      alignment: Alignment.bottomCenter,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (_location != null)
+            Text(
+              'at $_location',
+              style: const TextStyle(fontSize: 16),
+            ),
+          Text('$_professor\'s Office Hours'),
+          Row(
+            children: [
+              Text(
+                '$_dateText  ($_timeDetails)',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget clubEventPopup(String _nameText, String? _location,
+      String _timeDetails, String _dateText, String? _acronym) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(
+        top: MediaQuery.of(context).size.height * .80,
+        left: MediaQuery.of(context).size.width * .20,
+      ),
+      title: Container(child: Text('$_nameText $_acronym')),
+      alignment: Alignment.bottomCenter,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          if (_location != null)
+            Text(
+              'at $_location',
+              style: const TextStyle(fontSize: 16),
+            ),
+          Row(
+            children: [
+              Text(
+                '$_dateText  ($_timeDetails)',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'))
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
